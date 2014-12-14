@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from inspect import getmodule, getmembers, isclass, isfunction, ismethod, isroutine
+from inspect import getmodule, getmembers, isclass, isroutine
 
 
 def search(parent, obj, path=''):
@@ -22,26 +22,17 @@ def search(parent, obj, path=''):
 	raise LookupError("Can not identify canonical name for object: " + repr(obj))
 
 
-
-
 def name(obj):
-	"""This helper function attempts to resolve the dot-colon import path for the given object.
+	"""This helper function attempts to resolve the dot-colon import path for a given object.
 	
-	This is the inverse of 'lookup', which will turn the dot-colon path back into the object.
-	
-	Python 3.3 added a substantially improved way of determining the fully qualified name for objects;
-	this updated method will be used if available.  Note that running earlier versions will prevent correct
-	association of nested objects (i.e. objects not at the top level of a module).
+	Specifically searches for classes and methods, it should be able to find nearly anything at either the module
+	level or nested one level deep.  Uses ``__qualname__`` if available.
 	"""
 	
 	if not isroutine(obj) and not hasattr(obj, '__name__') and hasattr(obj, '__class__'):
 		obj = obj.__class__
 	
 	module = getmodule(obj)
-	
-	qcls = isclass(obj)
-	qfunc = isfunction(obj)
-	qmeth = ismethod(obj)
 	
 	try:
 		# Short-cut for Python 3.3+
@@ -53,34 +44,12 @@ def name(obj):
 	if isclass(obj):
 		return module.__name__ + ':' + search(module, obj)
 	
-	# Python 3.2 goodness.
+	# This should handle all method combinations.
 	if hasattr(obj, '__func__'):
 		if hasattr(obj, '__self__') and isclass(obj.__self__):
 			return module.__name__ + ':' + search(module, obj.__self__) + '.' + obj.__name__
 		
 		obj = obj.__func__
 	
-	
-	
-	# Try searching, maybe?
+	# Final hope.  Search.
 	return module.__name__ + ':' + search(module, obj)
-	
-	raise LookupError("Can not identify canonical name for object: " + repr(obj))
-	
-	
-	
-	
-	
-	
-	if not hasattr(obj, '__name__') and hasattr(obj, '__class__'):
-		obj = obj.__class__
-	
-	q = getattr(obj, '__qualname__', None)
-	
-	if not q:
-		q = obj.__name__
-		
-		if hasattr(obj, 'im_class'):
-			q = obj.im_class.__name__ + '.' + q
-			
-			return getmodule(obj).__name__ + ':' + q
