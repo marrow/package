@@ -22,7 +22,7 @@ class PluginManager(object):
 		
 		self.ws = ws = pkg_resources.working_set
 		
-		for container in self.folders:
+		for container in self.folders:  # pragma: no cover - TODO: Figure out how to test this.
 			path = os.path.abspath(os.path.expanduser(container))
 			log.info("Adding " + path + " to plugin search path.")
 			ws.add_entry(path)
@@ -50,10 +50,10 @@ class PluginManager(object):
 				
 				self.register(name, plugin)
 		
-		except pkg_resources.UnknownExtra:
+		except pkg_resources.UnknownExtra:  # pragma: no cover - TODO: Figure out how to test this.
 			pass # skipping plugin due to missing dependencies
 		
-		except ImportError:
+		except ImportError:  # pragma: no cover - TODO: Figure out how to test this.
 			pass # skipping plugin due to malformed import
 	
 	def __iter__(self):
@@ -80,8 +80,8 @@ class ExtensionManager(PluginManager):
 	
 	"""
 	
-	def order(self, config, prefix=''):
-		extensions = traverse(config, prefix)
+	def order(self, config=None, prefix=''):
+		extensions = traverse(config if config else self.plugins, prefix)
 		
 		# First, we check that everything absolutely required is configured.
 		

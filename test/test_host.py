@@ -6,8 +6,7 @@ from unittest import TestCase
 
 from marrow.package.host import ExtensionManager
 
-#from test import helper
-
+from pip import main as pip
 
 
 class BadExtension(object):
@@ -27,15 +26,50 @@ class CExtension(object):
 class DExtension(object):
 	needs = ('b', )
 
+class EExtension(object):
+	first = True
+
+class FExtension(object):
+	last = True
+
+class GExtension(object):
+	provides = ('g', )
+	needs = ('h', )
+
+class HExtension(object):
+	provides = ('h', )
+	needs = ('g', )
+
 
 class TestExtensionManager(TestCase):
-	def test__manager__fails_not_existant_need(self):
+	def test__plugin__access_via_attribute(self):
+		assert ExtensionManager('console_scripts').pip is pip
+	
+	def test__plugin__access_via_array(self):
+		assert ExtensionManager('console_scripts')['pip'] is pip
+	
+	def test__plugin__registry(self):
+		manager = ExtensionManager('console_scripts')
+		
+		extensions = [AExtension(), BExtension(), CExtension()]
+		
+		manager.register('foo', extensions[0])
+		manager.register('bar', extensions[1])
+		manager.register('baz', extensions[2])
+		
+		assert extensions[0] in extensions
+		assert extensions[1] in extensions
+		assert extensions[2] in extensions
+		
+		assert extensions[0] in iter(manager)
+	
+	def test__extension__fails_not_existant_need(self):
 		manager = ExtensionManager('console_scripts')
 		
 		with pytest.raises(LookupError):
 			manager.order([BadExtension()])
 	
-	def test__manager__resolve_chain(self):
+	def test__extension__resolve_chain(self):
 		manager = ExtensionManager('console_scripts')
 		
 		extensions = [AExtension(), BExtension(), DExtension()]
@@ -43,10 +77,24 @@ class TestExtensionManager(TestCase):
 		assert manager.order(extensions) == extensions
 		assert manager.order([i for i in reversed(extensions)]) == extensions
 	
-	def  test__manager__equal_need(self):
+	def test__extension__equal_need(self):
 		manager = ExtensionManager('console_scripts')
 		
 		extensions = [AExtension(), BExtension(), CExtension()]
 		
 		# This test suffers from a small amount of entropy.
 		assert manager.order(extensions) in (extensions, [extensions[0], extensions[2], extensions[1]])
+	
+	def test__extension__first_and_last(self):
+		manager = ExtensionManager('console_scripts')
+		
+		extensions = [EExtension(), AExtension(), FExtension()]
+		
+		assert manager.order(extensions) == extensions
+	
+	def test__extension__circular_need(self):
+		manager = ExtensionManager('console_scripts')
+		
+		with pytest.raises(LookupError):
+			manager.order([GExtension(), HExtension()])
+		
