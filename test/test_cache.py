@@ -10,16 +10,16 @@ from marrow.package.cache import PluginCache
 
 from pytest import main as pytest
 from coverage import main as coverage
-from tox import cmdline as tox
-from virtualenv import main as virtualenv
+from pip import main as pip
+from pytest_cagoule.cmdline import main as cagoule
 
 
 class TestPluginCache(TestCase):
-	candidates = ('py.test', 'coverage', 'tox', 'virtualenv')
+	candidates = ('py.test', 'coverage', 'pip', 'cagoule')
 	
 	def test__cache__loads_expected_objects(self):
 		cache = PluginCache('console_scripts')
-		for candidate, obj in zip(self.candidates, (pytest, coverage, tox, virtualenv)):
+		for candidate, obj in zip(self.candidates, (pytest, coverage, pip, cagoule)):
 			assert cache[candidate] is obj
 	
 	def test__cache__attribute_access(self):
