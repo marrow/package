@@ -7,6 +7,7 @@ from collections import defaultdict
 
 from .cache import PluginCache
 from .loader import traverse
+from .tarjan import robust_topological_sort
 
 
 log = __import__('logging').getLogger(__name__)
@@ -80,12 +81,12 @@ class ExtensionManager(PluginManager):
 	"""
 	
 	def order(self, config, prefix=''):
-		config = traverse(config, prefix)
+		extensions = traverse(config, prefix)
 		
 		# First, we check that everything absolutely required is configured.
 		
-		provided = set().union(*(traverse(ext, 'provides', ()) for ext in config))
-		needed = set().union(*(traverse(ext, 'needs', ()) for ext in config))
+		provided = set().union(*(traverse(ext, 'provides', ()) for ext in extensions))
+		needed = set().union(*(traverse(ext, 'needs', ()) for ext in extensions))
 		
 		if not provided.issuperset(needed):
 			raise LookupError("Extensions providing the following features must be configured:\n" + \
@@ -97,14 +98,14 @@ class ExtensionManager(PluginManager):
 		
 		universal = list()  # these always go first (in alphabetical order)
 		inverse = list()  # these always go last (in reverse alphabetical order)
-		provides = defaultdict(list)
+		provides = dict()
 		
 		universal.sort()
 		inverse.sort(reverse=True)
 		
 		for ext in extensions:
 			for feature in traverse(ext, 'provides', ()):
-				provides[feature].append(ext)
+				provides[feature] = ext
 			
 			if traverse(ext, 'first', False):
 				universal.append(ext)
@@ -138,6 +139,8 @@ class ExtensionManager(PluginManager):
 				raise LookupError("Circular dependency found: " + repr(ext))
 			
 			extensions.append(ext[0])
+		
+		extensions.reverse()
 		
 		return extensions
 	
