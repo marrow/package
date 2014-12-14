@@ -61,7 +61,7 @@ class TestExtensionManager(TestCase):
 		assert extensions[1] in extensions
 		assert extensions[2] in extensions
 		
-		assert extensions[0] in iter(manager)
+		assert extensions[0] in [i for i in manager]
 	
 	def test__extension__fails_not_existant_need(self):
 		manager = ExtensionManager('console_scripts')
@@ -97,4 +97,3 @@ class TestExtensionManager(TestCase):
 		
 		with pytest.raises(LookupError):
 			manager.order([GExtension(), HExtension()])
-		
