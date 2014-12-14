@@ -15,7 +15,7 @@ def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 onl
 	
 	for name, member in getmembers(parent, isclass):
 		try:
-			return search(member, obj, path + ('.' if path else '') + name)
+			return search(member, obj, name)
 		except LookupError:
 			pass
 	
