@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from inspect import getmodule, getmembers, isclass, isroutine
 
 
-def search(parent, obj, path=''):
+def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 only
 	if obj == parent.__dict__.get(obj.__name__, None) or obj == getattr(parent, obj.__name__, None):
 		return path + ('.' if path else '') + obj.__name__
 	
@@ -37,19 +37,15 @@ def name(obj):
 	try:
 		# Short-cut for Python 3.3+
 		return module.__name__ + ':' + obj.__qualname__
-	except AttributeError:
+	except AttributeError:  # pragma: no cover - used on Python < 3.3 only
 		pass
 	
-	# Nothing for it but to search for classes if __qualname__ is missing.  :/
-	if isclass(obj):
-		return module.__name__ + ':' + search(module, obj)
-	
 	# This should handle all method combinations.
-	if hasattr(obj, '__func__'):
+	if hasattr(obj, '__func__'):  # pragma: no cover - used on Python < 3.3 only
 		if hasattr(obj, '__self__') and isclass(obj.__self__):
 			return module.__name__ + ':' + search(module, obj.__self__) + '.' + obj.__name__
 		
 		obj = obj.__func__
 	
 	# Final hope.  Search.
-	return module.__name__ + ':' + search(module, obj)
+	return module.__name__ + ':' + search(module, obj)  # pragma: no cover - used on Python < 3.3 only
