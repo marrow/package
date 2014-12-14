@@ -9,31 +9,11 @@ from marrow.package.canonical import name
 from test import helper
 
 
-ver = __import__('sys').version_info
-
-
-xfail_im_class = pytest.mark.xfail(
-		not hasattr(helper.Example.instance, '__qualname__') and \
-			(not hasattr(helper.Example.instance, 'im_class') or \
-			helper.Example.instance.im_class is not helper.Example),
-		raises = LookupError,
-		reason = "Requires __qualname__ or working im_class references."
-	)
-
-xfail_im_self = pytest.mark.xfail(
-		not hasattr(helper.Example.classmethod, '__qualname__') and \
-			(not hasattr(helper.Example.classmethod, 'im_self') or \
-			helper.Example.classmethod.im_self is not helper.Example),
-		raises = LookupError,
-		reason = "Requires __qualname__ or working im_self references."
-	)
-
 xfail_qualname = pytest.mark.xfail(
 		not hasattr(helper.Example, '__qualname__'),
 		raises = LookupError,
 		reason = "Requires __qualname__ support introduced in Python 3.3."
 	)
-
 
 
 class TestResolver(TestCase):

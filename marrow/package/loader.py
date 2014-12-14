@@ -23,7 +23,10 @@ def traverse(obj, target, default=nodefault, executable=False, separator='.', pr
 	# TODO: Support numerical slicing, i.e. ``1:4``, or even just ``:-1`` and things.
 	
 	value = obj
-	remainder = reference
+	remainder = target
+	
+	if not target:
+		return obj
 	
 	while separator:
 		name, separator, remainder = remainder.partition(separator)
