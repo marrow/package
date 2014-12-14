@@ -4,9 +4,9 @@ import pytest
 
 from unittest import TestCase
 
-from marrow.package.loader import traverse
+from marrow.package.loader import traverse, load
 
-#from test import helper
+from test import helper
 
 
 class Recorder(object):
@@ -57,3 +57,15 @@ class TestTraversal(TestCase):
 	
 	def test_reference_default(self):
 		assert traverse(Recorder(), 'canary', default=27) == 27
+
+
+class TestLoader(TestCase):
+	def test_basic_import(self):
+		assert load('test.helper:Example') is helper.Example
+	
+	def test_basic_entrypoint(self):
+		assert load('py.test', 'console_scripts') is pytest.main
+	
+	def test_unknown_entrypoint(self):
+		with pytest.raises(LookupError):
+			assert load('bob.dole', 'console_scripts')
