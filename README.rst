@@ -84,18 +84,18 @@ For example, let's define a class and get a reference to it::
 You can, depending on platform, retrieve a reference to any of the following types of objects:
 
 * Module level:
-** class
-** class instance
-** class method
-** class staticmethod
-** function
-** instance classmethod
-** instance method
-** instance staticmethod
-** shallow nested class
+	* class
+	* class instance
+	* class method
+	* class staticmethod
+	* function
+	* instance classmethod
+	* instance method
+	* instance staticmethod
+	* shallow nested class
 * On Python 3.3+:
-** closure
-** deeply nested class or method
+	* closure
+	* deeply nested class or method
 
 
 4. Resolving Object References
