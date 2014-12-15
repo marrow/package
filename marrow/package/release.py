@@ -10,5 +10,5 @@ version = ".".join([str(i) for i in version_info[:3]]) + ((version_info.releasel
 
 author = namedtuple('Author', ['name', 'email'])("Alice Bevan-McGregor", 'alice@gothcandy.com')
 
-description = "An extension to MongoEngine for memoization and document-aware caching."
+description = "A collection of utilities for resolving object names, names to objects, and managing plugins/extensions."
 url = 'https://github.com/marrow/package/'
