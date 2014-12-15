@@ -8,22 +8,6 @@ import sys
 import codecs
 
 
-# This is an extreme test for use of __qualname__ and im_class.
-
-class Mine(object):
-	def canary(self):
-		pass
-
-if not hasattr(Mine.canary, 'im_class') and not hasattr(Mine.canary, '__qualname__'):
-	os.environ['CANARY'] = "DEAD"
-	print("*" * 79, file=sys.stderr)
-	print(" WARNING: You are executing marrow.schema under a Python version that supports", file=sys.stderr)
-	print(" neither im_class nor __qualname__ on class methods.  You will be unable to", file=sys.stderr)
-	print(" use automatic prefix detection on these.", file=sys.stderr)
-	print(" See: https://github.com/marrow/package/#21-requirements")
-	print("*" * 79, file=sys.stderr)
-
-
 try:
 	from setuptools.core import setup, find_packages
 except ImportError:
