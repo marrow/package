@@ -189,7 +189,7 @@ element matching the following, all optional:
 * ``last`` — declare that this extension depends on all other non-last extensions
 
 
-5. Version History
+6. Version History
 ==================
 
 Version 1.0
@@ -198,12 +198,12 @@ Version 1.0
 * **Initial release.**  Combination of utilities from other Marrow projects.
 
 
-5. License
+7. License
 ==========
 
 Marrow Pacakge has been released under the MIT Open Source license.
 
-5.1. The MIT License
+7.1. The MIT License
 --------------------
 
 Copyright © 2014 Alice Bevan-McGregor and contributors.
