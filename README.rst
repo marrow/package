@@ -197,6 +197,11 @@ Version 1.0
 
 * **Initial release.**  Combination of utilities from other Marrow projects.
 
+Version 1.0.1
+-------------
+
+* **Extended decorator support.**  New code paths and tests added to cover canonicalization of decorated functions.
+
 
 7. License
 ==========
