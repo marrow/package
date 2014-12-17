@@ -78,4 +78,3 @@ class TestResolver(TestCase):
 		
 	def test__resolve__of_a_module_level_decorated_decorated_method(self):
 		assert name(helper.Example.decorated_deep) == 'test.helper:Example.decorated_deep'
-		
