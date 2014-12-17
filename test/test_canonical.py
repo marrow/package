@@ -66,3 +66,16 @@ class TestResolver(TestCase):
 	
 	def test__resolve__of_a_nested_class_shallow(self):
 		assert name(helper.Example.Pandora) == 'test.helper:Example.Pandora'
+	
+	def test__resolve__of_a_module_level_decorated_function(self):
+		assert name(helper.decorated_shallow) == 'test.helper:decorated_shallow'
+	
+	def test__resolve__of_a_module_level_decorated_decorated_function(self):
+		assert name(helper.decorated_deep) == 'test.helper:decorated_deep'
+	
+	def test__resolve__of_a_module_level_decorated_method(self):
+		assert name(helper.Example.decorated_shallow) == 'test.helper:Example.decorated_shallow'
+		
+	def test__resolve__of_a_module_level_decorated_decorated_method(self):
+		assert name(helper.Example.decorated_deep) == 'test.helper:Example.decorated_deep'
+		

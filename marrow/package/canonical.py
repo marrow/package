@@ -2,15 +2,38 @@
 
 from __future__ import unicode_literals
 
+from functools import partial
 from inspect import getmodule, getmembers, isclass, isroutine
 
 
-def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 only
-	if obj == parent.__dict__.get(obj.__name__, None) or obj == getattr(parent, obj.__name__, None):
-		return path + ('.' if path else '') + obj.__name__
+def unwrap(obj, attr='__wrapped__'):  # pragma: no cover - used on Python < 3.3 only
+	"""Handle the @functools.wrap decorator protocol, determining the originally wrapped function."""
 	
+	while hasattr(obj, attr):
+		print("unwrapping", obj, "via", attr, "as", getattr(obj, attr))
+		obj = getattr(obj, attr)
+	
+	return obj
+
+
+def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 only
+	obj = unwrap(unwrap(obj), '__func__')
+	
+	candidates = [
+			partial(parent.__dict__.get, obj.__name__, None),
+			partial(getattr, parent, obj.__name__, None)
+		]
+	
+	for candidate in candidates:
+		candidate = unwrap(unwrap(candidate()), '__func__')
+		print(obj, candidate)
+		if obj is candidate or obj == candidate:
+			print("success")
+			return path + ('.' if path else '') + obj.__name__
+		
 	if path:
-		# We don't want to recurse forever... one level is good.
+		# We don't want to recurse forever... one level is acceptable for most applications.
+		# If you need deeper inspection, use Python 3.3+ for __qualname__ support.
 		raise LookupError("Can not identify canonical name for object: " + repr(obj))
 	
 	for name, member in getmembers(parent, isclass):
