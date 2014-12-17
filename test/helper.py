@@ -2,12 +2,33 @@
 
 from __future__ import unicode_literals, print_function
 
+from functools import wraps
+
+
+def simple_decorator(fn):
+	@wraps(fn)
+	def inner(*args, **kw):
+		return fn(*args, **kw)
+	
+	return inner
+
 
 def bare():
 	def closure():
 		pass
 	
 	return closure
+
+
+@simple_decorator
+def decorated_shallow():
+	pass
+
+
+@simple_decorator
+@simple_decorator
+def decorated_deep():
+	pass
 
 
 class Example(object):
@@ -28,6 +49,15 @@ class Example(object):
 	
 	@staticmethod
 	def staticmethod():
+		pass
+	
+	@simple_decorator
+	def decorated_shallow(self):
+		pass
+	
+	@simple_decorator
+	@simple_decorator
+	def decorated_deep(self):
 		pass
 
 instance = Example()
