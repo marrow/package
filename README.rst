@@ -202,6 +202,11 @@ Version 1.0.1
 
 * **Extended decorator support.**  New code paths and tests added to cover canonicalization of decorated functions.
 
+Version 1.0.2
+-------------
+
+* **Diagnostic information.**  Removed extraneous diagnostic information.
+
 
 7. License
 ==========
