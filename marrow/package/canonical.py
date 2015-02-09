@@ -28,7 +28,6 @@ def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 onl
 		candidate = unwrap(unwrap(candidate()), '__func__')
 		print(obj, candidate)
 		if obj is candidate or obj == candidate:
-			print("success")
 			return path + ('.' if path else '') + obj.__name__
 		
 	if path:
