@@ -10,7 +10,6 @@ def unwrap(obj, attr='__wrapped__'):  # pragma: no cover - used on Python < 3.3 
 	"""Handle the @functools.wrap decorator protocol, determining the originally wrapped function."""
 	
 	while hasattr(obj, attr):
-		print("unwrapping", obj, "via", attr, "as", getattr(obj, attr))
 		obj = getattr(obj, attr)
 	
 	return obj
@@ -26,9 +25,7 @@ def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 onl
 	
 	for candidate in candidates:
 		candidate = unwrap(unwrap(candidate()), '__func__')
-		print(obj, candidate)
 		if obj is candidate or obj == candidate:
-			print("success")
 			return path + ('.' if path else '') + obj.__name__
 		
 	if path:
