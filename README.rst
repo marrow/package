@@ -79,7 +79,7 @@ For example, let's define a class and get a reference to it::
     class Example(object):
         pass
     
-    asset name(Example) == '__main__:Example'
+    assert name(Example) == '__main__:Example'
 
 You can, depending on platform, retrieve a reference to any of the following types of objects:
 
