@@ -248,11 +248,11 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     :target: https://pypi.python.org/pypi/package
     :alt: Downloads per Week
 
-.. |mastercover| image:: http://img.shields.io/coveralls/marrow/package/master.svg?style=flat
+.. |mastercover| image:: http://img.shields.io/codecov/c/github/marrow/package/master.svg?style=flat
     :target: https://travis-ci.org/marrow/package
     :alt: Release Test Coverage
 
-.. |developcover| image:: http://img.shields.io/coveralls/marrow/package/develop.svg?style=flat
+.. |developcover| image:: http://img.shields.io/codecov/c/github/marrow/package/develop.svg?style=flat
     :target: https://travis-ci.org/marrow/package
     :alt: Development Test Coverage
 
