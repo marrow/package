@@ -276,11 +276,11 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     :alt: Downloads per Week
 
 .. |mastercover| image:: http://img.shields.io/codecov/c/github/marrow/package/master.svg?style=flat
-    :target: https://travis-ci.org/marrow/package
+    :target: https://codecov.io/github/marrow/package?branch=master
     :alt: Release Test Coverage
 
 .. |developcover| image:: http://img.shields.io/codecov/c/github/marrow/package/develop.svg?style=flat
-    :target: https://travis-ci.org/marrow/package
+    :target: https://codecov.io/github/marrow/package?branch=develop
     :alt: Development Test Coverage
 
 .. |issuecount| image:: http://img.shields.io/github/issues/marrow/package.svg?style=flat
