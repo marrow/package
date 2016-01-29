@@ -158,6 +158,27 @@ An attribute-access dictionary is provided that acts as an import cache::
     assert 'pip' in cache
 
 
+4.3. Lazy Import Reference Attributes
+-------------------------------------
+
+You can lazily load and cache an object reference upon dereferencing from an instance using the ``lazyload`` utility
+from the ``marrow.package.lazy`` module.  Assign the result of calling this function with either an object reference
+passed in positionally::
+
+    class MyClass:
+        debug = lazyload('logging:debug')
+
+Or the attribute path to traverse (using ``marrow.package.loader:traverse``) prefixed by a period::
+
+    class AnotherClass:
+        target = 'logging:info'
+        log = lazyload('.target')
+
+Any additional arguments are passed to the eventual call to `load()`.  This utility builds on a simpler one that is
+also offered for fully-tested re-use, ``lazy``, a decorator like ``@property`` which will cache the result, with
+thread-safe locking to ensure only one call will ever be made to the decorated function, per instance.
+
+
 5. Managing Plugins
 ===================
 
@@ -191,6 +212,12 @@ element matching the following, all optional:
 
 6. Version History
 ==================
+
+Version 1.1
+-----------
+
+* **Added lazy evaluation.**  There are two new helpers for caching of ``@property``-style attributes and lazy lookup
+  of object references.
 
 Version 1.0
 -----------
