@@ -17,7 +17,7 @@ Marrow Package
 
 This package is a combination of utilities for handling object lookup, resolving object names, and managing simple to
 complex plugin architectures.  Notably it includes a dependency grapher system for extensions and a cross-runtime
-method for looking up qualified object names that works on Python 2.6+ and Python 3.2+.
+method for looking up qualified object names that works on Python 2.6+ and Python 3.3+.
 
 This library is fully unit tested where possible.  (Two untested paths remain relating to use of on-disk directories
 for plugin discovery.)
