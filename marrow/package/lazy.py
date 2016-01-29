@@ -3,6 +3,8 @@
 from threading import RLock
 from collections import MutableMapping
 
+from .loader import traverse, load
+
 
 sentinel = object()
 
@@ -10,7 +12,21 @@ sentinel = object()
 class lazy(object):
 	"""Lazily record the result of evaluating a function and cache the result.
 	
-	This is a non-data descriptor which tells Python to allow the instance __dict__ to override.
+	This is a non-data descriptor which tells Python to allow the instance `__dict__` to override, naturally caching
+	the result. As a consequence of this assignment, whatever name is given to the lazy property must be included in
+	the class' `__slots__` declaration, if one is given.
+	
+	Use as a decorator just like `@property`:
+	
+		class MyClass:
+			@lazy
+			def myattr(self):
+				print("Executed!")
+				return 42
+		
+		obj = MyClass()
+		assert obj.myattr == 42 # Executed!
+		assert obj.myattr == 42 # Not.
 	"""
 	
 	def __init__(self, func, name=None, doc=None):
@@ -34,3 +50,31 @@ class lazy(object):
 				value = instance.__dict__[self.__name__] = self.func(instance)
 		
 		return value
+
+
+def lazyload(reference, *args, **kw):
+	"""Lazily load and cache an object reference upon dereferencing.
+	
+	Assign the result of calling this function with either an object reference passed in positionally:
+	
+		class MyClass:
+			debug = lazyload('logging:debug')
+	
+	Or the attribute path to traverse (using `marrow.package.loader:traverse`) prefixed by a period.
+	
+		class AnotherClass:
+			target = 'logging:info'
+			log = lazyload('.target')
+	
+	Additional arguments are passed to the eventual call to `load()`.
+	"""
+	
+	def lazily_load_reference(self):
+		ref = reference
+		
+		if ref.startswith('.'):
+			ref = traverse(self, ref[1:])
+		
+		return load(ref, *args, **kw)
+	
+	return lazy(lazily_load_reference)

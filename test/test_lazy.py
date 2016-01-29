@@ -2,11 +2,17 @@
 
 from unittest import TestCase
 
-from marrow.package.lazy import lazy # , lazyload
+from marrow.package.lazy import lazy, lazyload
+
+from test import helper
 
 
 class MockObject(object):
 	calls = 0
+	
+	target = 'test.helper:Example'
+	lazytarget = lazyload('.target')
+	lazyloaded = lazyload(target)
 	
 	@lazy
 	def twentyseven(self):
@@ -40,3 +46,13 @@ class TestLazy(TestCase):
 	
 	def test_repr(self):
 		assert repr(MockObject.twentyseven.func) in repr(MockObject.twentyseven)
+
+
+class TestLazyLoad(TestCase):
+	def test_basic_lazyload(self):
+		obj = MockObject()
+		assert obj.lazyloaded is helper.Example
+	
+	def test_targeted_lazyload(self):
+		obj = MockObject()
+		assert obj.lazytarget is helper.Example
