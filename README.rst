@@ -213,12 +213,6 @@ element matching the following, all optional:
 6. Version History
 ==================
 
-Version 1.1
------------
-
-* **Added lazy evaluation.**  There are two new helpers for caching of ``@property``-style attributes and lazy lookup
-  of object references.
-
 Version 1.0
 -----------
 
@@ -233,6 +227,12 @@ Version 1.0.2
 -------------
 
 * **Diagnostic information.**  Removed extraneous diagnostic information.
+
+Version 1.1
+-----------
+
+* **Added lazy evaluation.**  There are two new helpers for caching of ``@property``-style attributes and lazy lookup
+  of object references.
 
 
 7. License
