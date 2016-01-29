@@ -2,7 +2,7 @@
 Marrow Package
 ==============
 
-    © 2014 Alice Bevan-McGregor and contributors.
+    © 2014-2015 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -17,7 +17,7 @@ Marrow Package
 
 This package is a combination of utilities for handling object lookup, resolving object names, and managing simple to
 complex plugin architectures.  Notably it includes a dependency grapher system for extensions and a cross-runtime
-method for looking up qualified object names that works on Python 2.6+ and Python 3.2+.
+method for looking up qualified object names that works on Python 2.6+ and Python 3.3+.
 
 This library is fully unit tested where possible.  (Two untested paths remain relating to use of on-disk directories
 for plugin discovery.)
@@ -79,7 +79,7 @@ For example, let's define a class and get a reference to it::
     class Example(object):
         pass
     
-    asset name(Example) == '__main__:Example'
+    assert name(Example) == '__main__:Example'
 
 You can, depending on platform, retrieve a reference to any of the following types of objects:
 
@@ -158,6 +158,27 @@ An attribute-access dictionary is provided that acts as an import cache::
     assert 'pip' in cache
 
 
+4.3. Lazy Import Reference Attributes
+-------------------------------------
+
+You can lazily load and cache an object reference upon dereferencing from an instance using the ``lazyload`` utility
+from the ``marrow.package.lazy`` module.  Assign the result of calling this function with either an object reference
+passed in positionally::
+
+    class MyClass:
+        debug = lazyload('logging:debug')
+
+Or the attribute path to traverse (using ``marrow.package.loader:traverse``) prefixed by a period::
+
+    class AnotherClass:
+        target = 'logging:info'
+        log = lazyload('.target')
+
+Any additional arguments are passed to the eventual call to `load()`.  This utility builds on a simpler one that is
+also offered for fully-tested re-use, ``lazy``, a decorator like ``@property`` which will cache the result, with
+thread-safe locking to ensure only one call will ever be made to the decorated function, per instance.
+
+
 5. Managing Plugins
 ===================
 
@@ -207,6 +228,12 @@ Version 1.0.2
 
 * **Diagnostic information.**  Removed extraneous diagnostic information.
 
+Version 1.1
+-----------
+
+* **Added lazy evaluation.**  There are two new helpers for caching of ``@property``-style attributes and lazy lookup
+  of object references.
+
 
 7. License
 ==========
@@ -216,7 +243,7 @@ Marrow Pacakge has been released under the MIT Open Source license.
 7.1. The MIT License
 --------------------
 
-Copyright © 2014 Alice Bevan-McGregor and contributors.
+Copyright © 2014-2015 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
@@ -248,12 +275,12 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     :target: https://pypi.python.org/pypi/package
     :alt: Downloads per Week
 
-.. |mastercover| image:: http://img.shields.io/coveralls/marrow/package/master.svg?style=flat
-    :target: https://travis-ci.org/marrow/package
+.. |mastercover| image:: http://img.shields.io/codecov/c/github/marrow/package/master.svg?style=flat
+    :target: https://codecov.io/github/marrow/package?branch=master
     :alt: Release Test Coverage
 
-.. |developcover| image:: http://img.shields.io/coveralls/marrow/package/develop.svg?style=flat
-    :target: https://travis-ci.org/marrow/package
+.. |developcover| image:: http://img.shields.io/codecov/c/github/marrow/package/develop.svg?style=flat
+    :target: https://codecov.io/github/marrow/package?branch=develop
     :alt: Development Test Coverage
 
 .. |issuecount| image:: http://img.shields.io/github/issues/marrow/package.svg?style=flat

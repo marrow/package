@@ -38,7 +38,7 @@ class PyTest(TestCommand):
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-tests_require = ['pytest', 'pytest-cov', 'pytest-flakes', 'pytest-cagoule', 'pytest-spec<=0.2.22']
+tests_require = ['pytest', 'pytest-cov', 'pytest-flakes', 'pytest-cagoule', 'pytest-spec']
 
 setup(
 	name = "marrow.package",
@@ -63,9 +63,9 @@ setup(
 			"Programming Language :: Python :: 2.6",
 			"Programming Language :: Python :: 2.7",
 			"Programming Language :: Python :: 3",
-			"Programming Language :: Python :: 3.2",
 			"Programming Language :: Python :: 3.3",
 			"Programming Language :: Python :: 3.4",
+			"Programming Language :: Python :: 3.5",
 			"Programming Language :: Python :: Implementation :: CPython",
 			"Programming Language :: Python :: Implementation :: PyPy",
 			"Topic :: Software Development :: Libraries :: Python Modules",
@@ -85,7 +85,6 @@ setup(
 	tests_require = tests_require,
 	
 	dependency_links = [
-			'git+https://github.com/illico/pytest-spec.git@feature/py26#egg=pytest-spec-0.2.22'
 		],
 	
 	zip_safe = False,

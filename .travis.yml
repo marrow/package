@@ -1,18 +1,22 @@
 language: python
 sudo: false
 
-env:
-  - TOXENV=pypy
-  - TOXENV=pypy3
-  - TOXENV=py26
-  - TOXENV=py27
-  - TOXENV=py32
-  - TOXENV=py33
-  - TOXENV=py34
+branches:
+  except:
+    - /^feature/.*$/
+
+python:
+  - pypy
+  - pypy3
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
 
 install: travis_retry .travis/install.sh
 
-script: .travis/run.sh
+script: tox
 
 notifications:
   irc:
@@ -25,6 +29,3 @@ notifications:
     template:
       - "%{repository_slug}:%{branch}@%{commit} %{message}"
       - "Duration: %{duration} - Details: %{build_url}"
-
-after_success:
-  - coveralls

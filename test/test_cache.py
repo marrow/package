@@ -9,7 +9,7 @@ from marrow.package.cache import PluginCache
 #from test import helper
 
 from pytest import main as pytest
-from coverage import main as coverage
+from coverage.cmdline import main as coverage
 from pip import main as pip
 from pytest_cagoule.cmdline import main as cagoule
 
