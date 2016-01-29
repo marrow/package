@@ -36,7 +36,7 @@ developing using Python; installing things system-wide is yucky (for a variety o
 If you add ``marrow.package`` to the ``install_requires`` argument of the call to ``setup()`` in your applicaiton's
 ``setup.py`` file, Marrow Package will be automatically installed and made available when your own application or
 library is installed.  We recommend using "less than" version numbers to ensure there are no unintentional
-side-effects when updating.  Use ``marrow.package<1.1`` to get all bugfixes for the current release, and
+side-effects when updating.  Use ``marrow.package<1.2`` to get all bugfixes for the current release, and
 ``marrow.package<2.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not installed.
 
 
