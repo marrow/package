@@ -6,7 +6,7 @@ from functools import partial
 from inspect import getmodule, getmembers, isclass, isroutine
 
 
-def unwrap(obj, attr='__wrapped__'):  # pragma: no cover - used on Python < 3.3 only
+def unwrap(obj, attr='__wrapped__'):
 	"""Handle the @functools.wrap decorator protocol, determining the originally wrapped function."""
 	
 	while hasattr(obj, attr):
@@ -15,7 +15,7 @@ def unwrap(obj, attr='__wrapped__'):  # pragma: no cover - used on Python < 3.3 
 	return obj
 
 
-def search(parent, obj, path=''):  # pragma: no cover - used on Python < 3.3 only
+def search(parent, obj, path=''):
 	obj = unwrap(unwrap(obj), '__func__')
 	
 	candidates = [
@@ -57,15 +57,15 @@ def name(obj):
 	try:
 		# Short-cut for Python 3.3+
 		return module.__name__ + ':' + obj.__qualname__
-	except AttributeError:  # pragma: no cover - used on Python < 3.3 only
+	except AttributeError:
 		pass
 	
 	# This should handle all method combinations.
-	if hasattr(obj, '__func__'):  # pragma: no cover - used on Python < 3.3 only
+	if hasattr(obj, '__func__'):
 		if hasattr(obj, '__self__') and isclass(obj.__self__):
 			return module.__name__ + ':' + search(module, obj.__self__) + '.' + obj.__name__
 		
 		obj = obj.__func__
 	
 	# Final hope.  Search.
-	return module.__name__ + ':' + search(module, obj)  # pragma: no cover - used on Python < 3.3 only
+	return module.__name__ + ':' + search(module, obj)
