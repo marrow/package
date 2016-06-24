@@ -3,8 +3,6 @@
 import os
 import pkg_resources
 
-from collections import defaultdict
-
 from .cache import PluginCache
 from .loader import traverse
 from .tarjan import robust_topological_sort
@@ -96,12 +94,9 @@ class ExtensionManager(PluginManager):
 		
 		# First, create a mapping of feature names to extensions.  We only want extension objects in our initial graph.
 		
-		universal = list()  # these always go first (in alphabetical order)
-		inverse = list()  # these always go last (in reverse alphabetical order)
+		universal = list()
+		inverse = list()
 		provides = dict()
-		
-		universal.sort()
-		inverse.sort(reverse=True)
 		
 		for ext in extensions:
 			for feature in traverse(ext, 'provides', ()):
