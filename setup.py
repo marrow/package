@@ -79,7 +79,7 @@ setup(
 	install_requires = [],
 	
 	extras_require = dict(
-			development = tests_require,
+			development = tests_require + ['pre-commit'],  # Development-time dependencies.
 		),
 	
 	tests_require = tests_require,
