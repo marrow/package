@@ -208,6 +208,7 @@ element matching the following, all optional:
 * ``uses`` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
 * ``first`` — declare that this extension is a dependency of all other non-first extensions
 * ``last`` — declare that this extension depends on all other non-last extensions
+* ``excludes`` — declare tags that must not be present in other plugins for this one to be usable
 
 
 6. Version History
