@@ -99,15 +99,25 @@ class ExtensionManager(PluginManager):
 		universal = list()
 		inverse = list()
 		provides = dict()
+		excludes = dict()
 		
 		for ext in extensions:
 			for feature in traverse(ext, 'provides', ()):
 				provides[feature] = ext
 			
+			for feature in traverse(ext, 'excludes', ()):
+				excludes.setdefault(feature, []).append(ext)
+			
 			if traverse(ext, 'first', False):
 				universal.append(ext)
 			elif traverse(ext, 'last', False):
 				inverse.append(ext)
+		
+		# We bail early if there are known conflicts up-front.
+		
+		for conflict in set(provides) & set(excludes):
+			raise RuntimeError("{!r} precludes use of '{!r}', which is defined by {!r}".format(
+					excludes[conflict], conflict, provides[conflict]))
 		
 		# Now we build the initial graph.
 		

@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from marrow.package.host import ExtensionManager
 
-from pip import main as pip
+from pip._internal import main as pip
 
 
 class BadExtension(object):
@@ -39,6 +39,10 @@ class GExtension(object):
 class HExtension(object):
 	provides = ('h', )
 	needs = ('g', )
+
+class XExtension(object):
+	provides = ('x', )
+	excludes = ('a', )
 
 
 class TestExtensionManager(TestCase):
@@ -97,3 +101,9 @@ class TestExtensionManager(TestCase):
 		
 		with pytest.raises(LookupError):
 			manager.order([GExtension(), HExtension()])
+	
+	def test__extension__exclusion(self):
+		manager = ExtensionManager('console_scripts')
+		
+		with pytest.raises(RuntimeError):
+			manager.order([AExtension(), XExtension()])

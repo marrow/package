@@ -10,16 +10,15 @@ from marrow.package.cache import PluginCache
 
 from pytest import main as pytest
 from coverage.cmdline import main as coverage
-from pip import main as pip
-from pytest_cagoule.cmdline import main as cagoule
+from pip._internal import main as pip
 
 
 class TestPluginCache(TestCase):
-	candidates = ('py.test', 'coverage', 'pip', 'cagoule')
+	candidates = ('py.test', 'coverage', 'pip')
 	
 	def test__cache__loads_expected_objects(self):
 		cache = PluginCache('console_scripts')
-		for candidate, obj in zip(self.candidates, (pytest, coverage, pip, cagoule)):
+		for candidate, obj in zip(self.candidates, (pytest, coverage, pip)):
 			assert cache[candidate] is obj
 	
 	def test__cache__attribute_access(self):
