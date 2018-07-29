@@ -10,7 +10,7 @@ Marrow Package
 
 ..
 
-    |latestversion| |downloads| |masterstatus| |mastercover| |issuecount|
+    |latestversion| |masterstatus| |mastercover| |issuecount|
 
 1. What is Marrow Package?
 ==========================
@@ -235,6 +235,13 @@ Version 1.1
 * **Added lazy evaluation.**  There are two new helpers for caching of ``@property``-style attributes and lazy lookup
   of object references.
 
+Version 1.2
+-----------
+
+* **Deprecated Python 2.6 and 3.3.** While no particular backwards incompatible change was made; as setuptools no
+  longer supports these versions, these versions are now hard/impossible to test.
+* **Allow extensions to declare exclusions.** Flags that must not be defined for the extension to be usable.
+
 
 7. License
 ==========
@@ -269,12 +276,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     :alt: Development Build Status
 
 .. |latestversion| image:: http://img.shields.io/pypi/v/marrow.package.svg?style=flat
-    :target: https://pypi.python.org/pypi/package
+    :target: https://pypi.python.org/pypi/marrow.package
     :alt: Latest Version
-
-.. |downloads| image:: http://img.shields.io/pypi/dw/marrow.package.svg?style=flat
-    :target: https://pypi.python.org/pypi/package
-    :alt: Downloads per Week
 
 .. |mastercover| image:: http://img.shields.io/codecov/c/github/marrow/package/master.svg?style=flat
     :target: https://codecov.io/github/marrow/package?branch=master
