@@ -3,8 +3,7 @@
 import os
 import pkg_resources
 
-from collections import defaultdict
-
+from .canonical import name as _name
 from .cache import PluginCache
 from .loader import traverse
 from .tarjan import robust_topological_sort
@@ -24,7 +23,7 @@ class PluginManager(object):
 		
 		for container in self.folders:  # pragma: no cover - TODO: Figure out how to test this.
 			path = os.path.abspath(os.path.expanduser(container))
-			log.info("Adding " + path + " to plugin search path.")
+			log.info("Adding " + path + " to plugin search path.", extra=dict(path=path, namespace=self.namespace))
 			ws.add_entry(path)
 			env = pkg_resources.Environment([path])
 			ws.require(*env)
@@ -34,7 +33,8 @@ class PluginManager(object):
 		super(PluginManager, self).__init__()
 	
 	def register(self, name, plugin):
-		log.info("Registering plugin: %s %r", name, plugin)
+		log.info("Registering plugin" + name + " in namespace " + self.namespace + ".",
+				extra = dict(plugin_name=name, namespace=self.namespace, plugin=_name(plugin)))
 		self.named[name] = plugin
 		self.plugins.append(plugin)
 	
@@ -96,21 +96,28 @@ class ExtensionManager(PluginManager):
 		
 		# First, create a mapping of feature names to extensions.  We only want extension objects in our initial graph.
 		
-		universal = list()  # these always go first (in alphabetical order)
-		inverse = list()  # these always go last (in reverse alphabetical order)
+		universal = list()
+		inverse = list()
 		provides = dict()
-		
-		universal.sort()
-		inverse.sort(reverse=True)
+		excludes = dict()
 		
 		for ext in extensions:
 			for feature in traverse(ext, 'provides', ()):
 				provides[feature] = ext
 			
+			for feature in traverse(ext, 'excludes', ()):
+				excludes.setdefault(feature, []).append(ext)
+			
 			if traverse(ext, 'first', False):
 				universal.append(ext)
 			elif traverse(ext, 'last', False):
 				inverse.append(ext)
+		
+		# We bail early if there are known conflicts up-front.
+		
+		for conflict in set(provides) & set(excludes):
+			raise RuntimeError("{!r} precludes use of '{!r}', which is defined by {!r}".format(
+					excludes[conflict], conflict, provides[conflict]))
 		
 		# Now we build the initial graph.
 		

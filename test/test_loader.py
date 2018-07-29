@@ -60,6 +60,13 @@ class TestTraversal(TestCase):
 
 
 class TestLoader(TestCase):
+	def test_invalid_import_nodefault(self):
+		with pytest.raises(ImportError):
+			assert load('foo.bar:baz')
+	
+	def test_invalid_import_default(self):
+		assert load('foo.bar:baz', default="hi") is "hi"
+	
 	def test_basic_import(self):
 		assert load('test.helper:Example') is helper.Example
 	

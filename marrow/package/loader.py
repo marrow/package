@@ -83,7 +83,14 @@ def load(target, namespace=None, default=nodefault, executable=False, separators
 		return allowable[target].load()
 	
 	parts, _, target = target.partition(separators[1])
-	obj = __import__(parts)
+	
+	try:
+		obj = __import__(parts)
+	except ImportError:
+		if default is not nodefault:
+			return default
+		
+		raise
 	
 	return traverse(
 			obj,

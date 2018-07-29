@@ -38,7 +38,7 @@ class PyTest(TestCommand):
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-tests_require = ['pytest', 'pytest-cov', 'pytest-flakes', 'pytest-cagoule', 'pytest-spec']
+tests_require = ['pytest', 'pytest-cov', 'pytest-flakes']
 
 setup(
 	name = "marrow.package",
@@ -79,7 +79,7 @@ setup(
 	install_requires = [],
 	
 	extras_require = dict(
-			development = tests_require,
+			development = tests_require + ['pre-commit'],  # Development-time dependencies.
 		),
 	
 	tests_require = tests_require,

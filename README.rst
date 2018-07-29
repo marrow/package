@@ -2,7 +2,7 @@
 Marrow Package
 ==============
 
-    © 2014-2015 Alice Bevan-McGregor and contributors.
+    © 2014-2018 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -36,7 +36,7 @@ developing using Python; installing things system-wide is yucky (for a variety o
 If you add ``marrow.package`` to the ``install_requires`` argument of the call to ``setup()`` in your applicaiton's
 ``setup.py`` file, Marrow Package will be automatically installed and made available when your own application or
 library is installed.  We recommend using "less than" version numbers to ensure there are no unintentional
-side-effects when updating.  Use ``marrow.package<1.1`` to get all bugfixes for the current release, and
+side-effects when updating.  Use ``marrow.package<1.2`` to get all bugfixes for the current release, and
 ``marrow.package<2.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not installed.
 
 
@@ -208,6 +208,7 @@ element matching the following, all optional:
 * ``uses`` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
 * ``first`` — declare that this extension is a dependency of all other non-first extensions
 * ``last`` — declare that this extension depends on all other non-last extensions
+* ``excludes`` — declare tags that must not be present in other plugins for this one to be usable
 
 
 6. Version History
@@ -243,7 +244,7 @@ Marrow Pacakge has been released under the MIT Open Source license.
 7.1. The MIT License
 --------------------
 
-Copyright © 2014-2015 Alice Bevan-McGregor and contributors.
+Copyright © 2014-2018 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
