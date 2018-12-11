@@ -1,5 +1,4 @@
 language: python
-sudo: false
 
 branches:
   except:
@@ -11,8 +10,16 @@ python:
   - "2.7"
   - "3.4"
   - "3.5"
+  - "3.6"
 
-install: travis_retry .travis/install.sh
+matrix:
+    include:
+        - python: '3.7'
+          dist: xenial
+
+install:
+ - 'travis_retry pip install --upgrade setuptools pip pytest pytest-cov codecov "setuptools_scm>=1.9" cffi'
+ - 'pip install -e ".[development]"'
 
 script: pytest
 
