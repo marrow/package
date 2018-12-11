@@ -7,8 +7,8 @@ import sys
 from setuptools import setup
 
 
-if sys.version_info < (3, 3):
-	raise SystemExit("Python 3.3 or later is required.")
+if sys.version_info < (3, 4):
+	raise SystemExit("Python 3.4 or later is required.")
 
 exec(open(os.path.join("marrow", "package", "release.py")).read())
 
