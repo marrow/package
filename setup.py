@@ -60,7 +60,7 @@ setup(
 	
 	setup_requires = [
 			'pytest-runner',
-		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else []
+		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else [],
 	
 	install_requires = [],
 	
