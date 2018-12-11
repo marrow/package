@@ -36,7 +36,8 @@ setup(
 			'plugin manager',
 			'plugin system',
 			'canonicalization',
-			'reference parsing'
+			'reference parsing',
+			'import resolver',
 		),
 	classifiers = [
 			"Development Status :: 5 - Production/Stable",
@@ -55,7 +56,7 @@ setup(
 			"Topic :: Utilities"
 		],
 	
-	packages = ['marrow.package'],
+	packages = ('marrow.package', ),
 	include_package_data = True,
 	
 	setup_requires = [
