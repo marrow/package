@@ -17,7 +17,7 @@ Graph = Mapping[str, Sequence[str]]
 def strongly_connected_components(graph: Graph) -> List:
 	"""Find the strongly connected components in a graph using Tarjan's algorithm.
 	
-	The `graph` argument should be a dictionary mapping node names to lists of successor nodes.
+	The `graph` argument should be a dictionary mapping node names to sequences of successor nodes.
 	"""
 	
 	assert check_argument_types()
