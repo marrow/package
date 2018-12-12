@@ -11,19 +11,23 @@
 
 """
 
-def strongly_connected_components(graph):
-	""" Find the strongly connected components in a graph using
-		Tarjan's algorithm.
+from collections import defaultdict
+from typing import List, Mapping, Sequence
 
-		graph should be a dictionary mapping node names to
-		lists of successor nodes.
-		"""
+Graph = Mapping[str, Sequence[str]]
 
-	result = [ ]
-	stack = [ ]
-	low = { }
 
-	def visit(node):
+def strongly_connected_components(graph: Graph) -> List:
+	"""Find the strongly connected components in a graph using Tarjan's algorithm.
+	
+	The `graph` argument should be a dictionary mapping node names to lists of successor nodes.
+	"""
+	
+	result = []
+	stack = []
+	low = {}
+	
+	def visit(node: str):
 		if node in low: return
 		
 		num = len(low)
@@ -48,8 +52,9 @@ def strongly_connected_components(graph):
 	return result
 
 
-def topological_sort(graph):
-	count = { }
+def topological_sort(graph: Graph) -> list:
+	count = {}
+	
 	for node in graph:
 		count[node] = 0
 	for node in graph:
@@ -71,7 +76,7 @@ def topological_sort(graph):
 	return result
 
 
-def robust_topological_sort(graph):
+def robust_topological_sort(graph: Graph):
 	""" First identify strongly connected components,
 		then perform a topological sort on these components. """
 	
