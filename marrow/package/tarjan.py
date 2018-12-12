@@ -12,6 +12,7 @@
 """
 
 from collections import defaultdict
+from typeguard import check_argument_types
 from typing import List, Mapping, Sequence
 
 Graph = Mapping[str, Sequence[str]]
@@ -22,6 +23,8 @@ def strongly_connected_components(graph: Graph) -> List:
 	
 	The `graph` argument should be a dictionary mapping node names to lists of successor nodes.
 	"""
+	
+	assert check_argument_types()
 	
 	result = []
 	stack = []
@@ -54,13 +57,14 @@ def strongly_connected_components(graph: Graph) -> List:
 
 def topological_sort(graph: Graph) -> list:
 	count = {}
+	assert check_argument_types()
 	
 	for node in graph:
 		count[node] = 0
 	for node in graph:
 		for successor in graph[node]:
 			count[successor] += 1
-
+	
 	ready = [ node for node in graph if count[node] == 0 ]
 	
 	result = [ ]
@@ -76,9 +80,10 @@ def topological_sort(graph: Graph) -> list:
 	return result
 
 
-def robust_topological_sort(graph: Graph):
-	""" First identify strongly connected components,
-		then perform a topological sort on these components. """
+def robust_topological_sort(graph: Graph) -> list:
+	"""Identify strongly connected components then perform a topological sort of those components."""
+	
+	assert check_argument_types()
 	
 	components = strongly_connected_components(graph)
 	
