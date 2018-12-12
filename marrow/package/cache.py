@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from collections import defaultdict
 
 from .loader import load
@@ -14,7 +12,7 @@ class PluginCache(defaultdict):
 	def __init__(self,  namespace):
 		"""You must specify an entry point namespace."""
 		
-		super(PluginCache, self).__init__()
+		super().__init__()
 		self.namespace =  namespace
 
 	def __missing__(self,  key):

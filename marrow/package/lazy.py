@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from threading import RLock
 from collections import MutableMapping
 
@@ -9,7 +7,7 @@ from .loader import traverse, load
 sentinel = object()
 
 
-class lazy(object):
+class lazy:
 	"""Lazily record the result of evaluating a function and cache the result.
 	
 	This is a non-data descriptor which tells Python to allow the instance `__dict__` to override, naturally caching

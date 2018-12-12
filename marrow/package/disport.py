@@ -1,8 +1,6 @@
-# encoding: utf-8
-
 """Import redirector registry utility.
 
-Disport; noun.  Diversion from work or serious matters; recreation or amusement.
+Disport; noun: diversion from work or serious matters; recreation or amusement.
 """
 
 from collections import deque
@@ -10,7 +8,7 @@ from collections import deque
 from .loader import load, nodefault
 
 
-class Importer(object):
+class Importer:
 	"""A helper class to redirect imports and plugin loading.
 	
 	Predominantly useful when paired with a template importer such as web.template or import-based template engine
@@ -79,4 +77,3 @@ class Importer(object):
 				separators = self.separators,
 				protect = self.protect
 			)
-

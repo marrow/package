@@ -1,16 +1,9 @@
-# encoding: utf-8
-
-#import pytest
-
 from unittest import TestCase
-
-from marrow.package.cache import PluginCache
-
-#from test import helper
-
 from pytest import main as pytest
 from coverage.cmdline import main as coverage
 from pip._internal import main as pip
+
+from marrow.package.cache import PluginCache
 
 
 class TestPluginCache(TestCase):

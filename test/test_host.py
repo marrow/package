@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 import pytest
 
 from unittest import TestCase
@@ -9,38 +7,38 @@ from marrow.package.host import ExtensionManager
 from pip._internal import main as pip
 
 
-class BadExtension(object):
+class BadExtension:
 	needs = ('nan', )
 
-class AExtension(object):
+class AExtension:
 	provides = ('a', )
 	needs = ()
 
-class BExtension(object):
+class BExtension:
 	provides = ('b', )
 	needs = ('a', )
 
-class CExtension(object):
+class CExtension:
 	needs = ('a', )
 
-class DExtension(object):
+class DExtension:
 	needs = ('b', )
 
-class EExtension(object):
+class EExtension:
 	first = True
 
-class FExtension(object):
+class FExtension:
 	last = True
 
-class GExtension(object):
+class GExtension:
 	provides = ('g', )
 	needs = ('h', )
 
-class HExtension(object):
+class HExtension:
 	provides = ('h', )
 	needs = ('g', )
 
-class XExtension(object):
+class XExtension:
 	provides = ('x', )
 	excludes = ('a', )
 

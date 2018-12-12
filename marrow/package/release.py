@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 """Release information."""
 
 from collections import namedtuple

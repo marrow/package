@@ -1,7 +1,5 @@
-# encoding: utf-8
-
+from typeguard import check_argument_types
 from pkg_resources import iter_entry_points
-
 
 nodefault = object()
 
