@@ -56,11 +56,10 @@ def strongly_connected_components(graph: Graph) -> List:
 
 
 def topological_sort(graph: Graph) -> list:
-	count = {}
 	assert check_argument_types()
 	
-	for node in graph:
-		count[node] = 0
+	count = defaultdict(lambda: 0)
+	
 	for node in graph:
 		for successor in graph[node]:
 			count[successor] += 1
