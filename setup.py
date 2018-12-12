@@ -63,7 +63,10 @@ setup(
 			'pytest-runner',
 		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else [],
 	
-	install_requires = [],
+	install_requires = [
+			'typeguard <= 2.3',
+			'typing; python_version < "3.5"',  # 
+		],
 	
 	extras_require = dict(
 			development = tests_require + ['pre-commit'],  # Development-time dependencies.
