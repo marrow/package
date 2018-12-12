@@ -1,14 +1,10 @@
-# encoding: utf-8
-"""
+"""Tarjan's algorithm and topological sorting implementation in Python.
 
-   Tarjan's algorithm and topological sorting implementation in Python
+by Paul Harrison
 
-   by Paul Harrison
+Public domain, do with it as you will.
 
-   Public domain, do with it as you will.
-   
-   From blog post: http://www.logarithmic.net/pfh/blog/01208083168
-
+From a blog post by Paul Harrison: http://www.logarithmic.net/pfh/blog/01208083168
 """
 
 from collections import defaultdict
@@ -45,7 +41,9 @@ def strongly_connected_components(graph: Graph) -> List:
 		if num == low[node]:
 			component = tuple(stack[stack_pos:])
 			del stack[stack_pos:]
+			
 			result.append(component)
+			
 			for item in component:
 				low[item] = len(graph)
 	
@@ -64,9 +62,9 @@ def topological_sort(graph: Graph) -> list:
 		for successor in graph[node]:
 			count[successor] += 1
 	
-	ready = [ node for node in graph if count[node] == 0 ]
+	result = []
+	ready = [node for node in graph if count[node] == 0]
 	
-	result = [ ]
 	while ready:
 		node = ready.pop(-1)
 		result.append(node)
@@ -86,14 +84,14 @@ def robust_topological_sort(graph: Graph) -> list:
 	
 	components = strongly_connected_components(graph)
 	
-	node_component = { }
+	node_component = {}
 	for component in components:
 		for node in component:
 			node_component[node] = component
 	
-	component_graph = { }
+	component_graph = {}
 	for component in components:
-		component_graph[component] = [ ]
+		component_graph[component] = []
 	
 	for node in graph:
 		node_c = node_component[node]
