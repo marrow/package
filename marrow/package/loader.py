@@ -1,10 +1,11 @@
-from typeguard import check_argument_types
 from pkg_resources import iter_entry_points
+from typeguard import check_argument_types
+from typing import Sequence
 
 nodefault = object()
 
 
-def traverse(obj, target, default=nodefault, executable=False, separator='.', protect=True):
+def traverse(obj, target:str, default=nodefault, executable:bool=False, separator:str='.', protect:bool=True):
 	"""Traverse down an object, using getattr or getitem.
 	
 	If ``executable`` is ``True`` any executable function encountered will be, with no arguments. Traversal will
@@ -19,6 +20,7 @@ def traverse(obj, target, default=nodefault, executable=False, separator='.', pr
 	"""
 	
 	# TODO: Support numerical slicing, i.e. ``1:4``, or even just ``:-1`` and things.
+	assert check_argument_types()
 	
 	value = obj
 	remainder = target
@@ -52,7 +54,7 @@ def traverse(obj, target, default=nodefault, executable=False, separator='.', pr
 	return value
 
 
-def load(target, namespace=None, default=nodefault, executable=False, separators=('.', ':'), protect=True):
+def load(target:str, namespace:str=None, default=nodefault, executable:bool=False, separators:Sequence[str]=('.', ':'), protect:bool=True):
 	"""This helper function loads an object identified by a dotted-notation string.
 	
 	For example::
@@ -71,6 +73,8 @@ def load(target, namespace=None, default=nodefault, executable=False, separators
 	The ``executable``, ``protect``, and first tuple element of ``separators`` are passed to the traverse function.
 	Providing a namespace does not prevent full object lookup (dot-colon notation) from working.
 	"""
+	
+	assert check_argument_types()
 	
 	if namespace and ':' not in target:
 		allowable = dict((i.name,  i) for i in iter_entry_points(namespace))

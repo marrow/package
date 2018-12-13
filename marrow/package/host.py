@@ -1,6 +1,9 @@
 import os
 import pkg_resources
 
+from typeguard import check_argument_types
+from typing import Sequence
+
 from .canonical import name as _name
 from .cache import PluginCache
 from .loader import traverse
@@ -10,8 +13,10 @@ from .tarjan import robust_topological_sort
 log = __import__('logging').getLogger(__name__)
 
 
-class PluginManager(object):
-	def __init__(self, namespace, folders=None):
+class PluginManager:
+	def __init__(self, namespace:str, folders:Sequence[str]=None):
+		assert check_argument_types()
+		
 		self.namespace = namespace
 		self.folders = folders if folders else list()
 		self.plugins = list()
@@ -30,13 +35,15 @@ class PluginManager(object):
 		
 		super(PluginManager, self).__init__()
 	
-	def register(self, name, plugin):
+	def register(self, name:str, plugin:object) -> None:
+		assert check_argument_types()
+		
 		log.info("Registering plugin" + name + " in namespace " + self.namespace + ".",
 				extra = dict(plugin_name=name, namespace=self.namespace, plugin=_name(plugin)))
 		self.named[name] = plugin
 		self.plugins.append(plugin)
 	
-	def _register(self, dist):
+	def _register(self, dist) -> None:
 		entries = dist.get_entry_map(self.namespace)
 		
 		if not entries:
@@ -58,10 +65,10 @@ class PluginManager(object):
 		for plugin in self.plugins:
 			yield plugin
 	
-	def __getattr__(self, name):
+	def __getattr__(self, name:str):
 		return self.named[name]
 	
-	def __getitem__(self, name):
+	def __getitem__(self, name:str):
 		return self.named[name]
 
 
@@ -148,5 +155,3 @@ class ExtensionManager(PluginManager):
 		extensions.reverse()
 		
 		return extensions
-	
-	

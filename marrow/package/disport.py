@@ -4,6 +4,8 @@ Disport; noun: diversion from work or serious matters; recreation or amusement.
 """
 
 from collections import deque
+from typeguard import check_argument_types
+from typing import Sequence, Iterable
 
 from .loader import load, nodefault
 
@@ -25,13 +27,18 @@ class Importer:
 	
 	__slots__ = ('redirects', 'namespace', 'separators', 'executable', 'protect')
 	
-	def __init__(self, redirect=None, namespace=None, separators=('.', ':'), executable=False, protect=True):
+	def __init__(self, redirect:Iterable[Sequence[str, str]]=None, namespace:str=None,
+				separators:Sequence[str]=('.', ':'), executable:bool=False, protect:bool=True):
 		"""Configure the disport Importer.
 		
 		The arguments are essentially the same as those for the load or lazyload utilities, with the addition of the
 		ability to specify an initial iterable of overrides through the `redirect` argument. This should be an
 		iterable of tuples (or tuple-alikes) in the form `(source, destination)`.
 		"""
+		
+		assert check_argument_types()
+		
+		super().__init__()
 		
 		self.redirects = deque()
 		self.namespace = namespace
@@ -43,10 +50,14 @@ class Importer:
 		for source, destination in redirect:
 			self.redirect(source, destination)
 	
-	def redirect(self, source, destination):
+	def redirect(self, source:str, destination:str):
+		assert check_argument_types()
+		
 		self.redirects.appendleft((source, destination))
 	
-	def __call__(self, target, default=nodefault):
+	def __call__(self, target:str, default=nodefault):
+		assert check_argument_types()
+		
 		for candidate, destination in self.redirects:
 			if candidate == target:  # Plugin reference.
 				pass
