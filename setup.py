@@ -75,9 +75,9 @@ setup(
 	
 	entry_points = {
 			'marrow.package.sample': [
-					'name = marrow.package.name',
-					'load = marrow.package.load',
-					'traverse = marrow.package.traverse',
+					'name = marrow.package:name',
+					'load = marrow.package:load',
+					'traverse = marrow.package:traverse',
 				]
 		}
 )
