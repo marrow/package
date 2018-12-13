@@ -1,5 +1,5 @@
 from threading import RLock
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from typeguard import check_argument_types
 from typing import Callable
 
