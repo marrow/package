@@ -16,11 +16,10 @@ Marrow Package
 ==========================
 
 This package is a combination of utilities for handling object lookup, resolving object names, and managing simple to
-complex plugin architectures.  Notably it includes a dependency grapher system for extensions and a cross-runtime
-method for looking up qualified object names that works on Python 2.6+ and Python 3.3+.
+complex plugin architectures.  Notably it includes a dependency grapher system for extensions and helper for looking
+up qualified object names.
 
-This library is fully unit tested where possible.  (Two untested paths remain relating to use of on-disk directories
-for plugin discovery.)
+This library is fully unit tested where possible.
 
 
 2. Installation
@@ -36,8 +35,8 @@ developing using Python; installing things system-wide is yucky (for a variety o
 If you add ``marrow.package`` to the ``install_requires`` argument of the call to ``setup()`` in your applicaiton's
 ``setup.py`` file, Marrow Package will be automatically installed and made available when your own application or
 library is installed.  We recommend using "less than" version numbers to ensure there are no unintentional
-side-effects when updating.  Use ``marrow.package<1.2`` to get all bugfixes for the current release, and
-``marrow.package<2.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not installed.
+side-effects when updating.  Use ``marrow.package<2.1`` to get all bugfixes for the current release, and
+``marrow.package<3.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not installed.
 
 
 2.1. Development Version
@@ -92,10 +91,8 @@ You can, depending on platform, retrieve a reference to any of the following typ
 	* instance classmethod
 	* instance method
 	* instance staticmethod
-	* shallow nested class
-* On Python 3.3+:
-	* closure
-	* deeply nested class or method
+* nested classes and methods
+* closures
 
 
 4. Resolving Object References
@@ -241,6 +238,18 @@ Version 1.2
 * **Deprecated Python 2.6 and 3.3.** While no particular backwards incompatible change was made; as setuptools no
   longer supports these versions, these versions are now hard/impossible to test.
 * **Allow extensions to declare exclusions.** Flags that must not be defined for the extension to be usable.
+
+Version 2.0
+-----------
+
+* **Updated minimum Python version.** Marrow Package now requires Python 3.4 or later.
+* **Removed Python 2 support and version specific code.** The project has been updated to modern Python packaging
+  standards, including modern namespace use. Modern namespaces are wholly incompatible with the previous namespacing
+  mechanism; this project can not be simultaneously installed with any Marrow project that is Python 2 compatible.
+* **Extensive type annotation and in-development validation.** When run without optimizations (`-O` argument to Python
+  or `PYTHONOPTIMIZE` environment variable) type anotations will be validated.
+* **Reduced test fragility.** Previously the tests utilized the `console_scripts` namespace, this was fragile to the
+  presence of other installed libraries, e.g. `numpy` broke the tests on Travis.
 
 
 7. License
