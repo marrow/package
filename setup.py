@@ -20,14 +20,11 @@ tests_require = ['pytest', 'pytest-cov', 'pytest-flakes']
 setup(
 	name = "marrow.package",
 	version = version,
-	
 	description = description,
 	long_description = codecs.open(os.path.join(here, 'README.rst'), 'r', 'utf8').read(),
 	url = url,
-	
 	author = author.name,
 	author_email = author.email,
-	
 	license = 'MIT',
 	keywords = (
 			'entry point',
@@ -58,6 +55,8 @@ setup(
 	
 	packages = ('marrow.package', ),
 	include_package_data = True,
+	package_data = {'': ['README.rst', 'LICENSE.txt']},
+	zip_safe = False,
 	
 	setup_requires = [
 			'pytest-runner',
@@ -74,5 +73,11 @@ setup(
 	
 	tests_require = tests_require,
 	
-	zip_safe = False,
+	entry_points = {
+			'marrow.package.sample': [
+					'name = marrow.package.name',
+					'load = marrow.package.load',
+					'traverse = marrow.package.traverse',
+				]
+		}
 )
