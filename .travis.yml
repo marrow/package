@@ -1,4 +1,5 @@
 language: python
+cache: pip
 
 branches:
   except:
@@ -12,7 +13,7 @@ python:
 
 matrix:
     include:
-        - python: '3.7'
+        - python: "3.7"
           dist: xenial
 
 install:
@@ -20,6 +21,9 @@ install:
  - 'pip install -e ".[development]"'
 
 script: pytest
+
+after_script:
+    bash <(curl -s https://codecov.io/bash)
 
 notifications:
   irc:
