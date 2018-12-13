@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 import pytest
 
 from unittest import TestCase
@@ -9,7 +7,7 @@ from marrow.package.loader import traverse, load
 from test import helper
 
 
-class Recorder(object):
+class Recorder:
 	def __init__(self, traversal=None):
 		self._traversal = traversal or []
 	

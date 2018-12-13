@@ -1,29 +1,32 @@
-# encoding: utf-8
+"""Tarjan's algorithm and topological sorting implementation in Python.
+
+by Paul Harrison
+
+Public domain, do with it as you will.
+
+From a blog post by Paul Harrison: http://www.logarithmic.net/pfh/blog/01208083168
 """
 
-   Tarjan's algorithm and topological sorting implementation in Python
+from collections import defaultdict
+from typeguard import check_argument_types
+from typing import List, Mapping, Sequence
 
-   by Paul Harrison
+Graph = Mapping[str, Sequence[str]]
 
-   Public domain, do with it as you will.
-   
-   From blog post: http://www.logarithmic.net/pfh/blog/01208083168
 
-"""
-
-def strongly_connected_components(graph):
-	""" Find the strongly connected components in a graph using
-		Tarjan's algorithm.
-
-		graph should be a dictionary mapping node names to
-		lists of successor nodes.
-		"""
-
-	result = [ ]
-	stack = [ ]
-	low = { }
-
-	def visit(node):
+def strongly_connected_components(graph: Graph) -> List:
+	"""Find the strongly connected components in a graph using Tarjan's algorithm.
+	
+	The `graph` argument should be a dictionary mapping node names to sequences of successor nodes.
+	"""
+	
+	assert check_argument_types()
+	
+	result = []
+	stack = []
+	low = {}
+	
+	def visit(node: str):
 		if node in low: return
 		
 		num = len(low)
@@ -38,7 +41,9 @@ def strongly_connected_components(graph):
 		if num == low[node]:
 			component = tuple(stack[stack_pos:])
 			del stack[stack_pos:]
+			
 			result.append(component)
+			
 			for item in component:
 				low[item] = len(graph)
 	
@@ -48,49 +53,51 @@ def strongly_connected_components(graph):
 	return result
 
 
-def topological_sort(graph):
-	count = { }
-	for node in graph:
-		count[node] = 0
+def topological_sort(graph: Graph) -> list:
+	assert check_argument_types()
+	
+	count = defaultdict(lambda: 0)
+	
 	for node in graph:
 		for successor in graph[node]:
 			count[successor] += 1
-
-	ready = [ node for node in graph if count[node] == 0 ]
-
-	result = [ ]
+	
+	result = []
+	ready = [node for node in graph if count[node] == 0]
+	
 	while ready:
 		node = ready.pop(-1)
 		result.append(node)
-
+		
 		for successor in graph[node]:
 			count[successor] -= 1
 			if count[successor] == 0:
 				ready.append(successor)
-
+	
 	return result
 
 
-def robust_topological_sort(graph):
-	""" First identify strongly connected components,
-		then perform a topological sort on these components. """
-
+def robust_topological_sort(graph: Graph) -> list:
+	"""Identify strongly connected components then perform a topological sort of those components."""
+	
+	assert check_argument_types()
+	
 	components = strongly_connected_components(graph)
-
-	node_component = { }
+	
+	node_component = {}
 	for component in components:
 		for node in component:
 			node_component[node] = component
-
-	component_graph = { }
+	
+	component_graph = {}
 	for component in components:
-		component_graph[component] = [ ]
-
+		component_graph[component] = []
+	
 	for node in graph:
 		node_c = node_component[node]
 		for successor in graph[node]:
 			successor_c = node_component[successor]
 			if node_c != successor_c:
 				component_graph[node_c].append(successor_c) 
-
+	
 	return topological_sort(component_graph)

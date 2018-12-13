@@ -1,6 +1,5 @@
-# encoding: utf-8
-
 from collections import defaultdict
+from typeguard import check_argument_types
 
 from .loader import load
 
@@ -8,15 +7,17 @@ from .loader import load
 class PluginCache(defaultdict):
 	"""Lazily load plugins from the given namespace.
 	
-	Supports dictionary-style and read-only attribute access.
+	Supports read-only dictionary-like and attribute access.
 	"""
-
-	def __init__(self,  namespace):
+	
+	def __init__(self,  namespace: str):
 		"""You must specify an entry point namespace."""
 		
-		super(PluginCache, self).__init__()
+		assert check_argument_types()
+		
+		super().__init__()
 		self.namespace =  namespace
-
+	
 	def __missing__(self,  key):
 		"""If not already loaded, attempt to load the reference."""
 		

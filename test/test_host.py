@@ -1,59 +1,56 @@
-# encoding: utf-8
-
 import pytest
 
 from unittest import TestCase
 
+from marrow.package import name, load
 from marrow.package.host import ExtensionManager
 
-from pip._internal import main as pip
 
-
-class BadExtension(object):
+class BadExtension:
 	needs = ('nan', )
 
-class AExtension(object):
+class AExtension:
 	provides = ('a', )
 	needs = ()
 
-class BExtension(object):
+class BExtension:
 	provides = ('b', )
 	needs = ('a', )
 
-class CExtension(object):
+class CExtension:
 	needs = ('a', )
 
-class DExtension(object):
+class DExtension:
 	needs = ('b', )
 
-class EExtension(object):
+class EExtension:
 	first = True
 
-class FExtension(object):
+class FExtension:
 	last = True
 
-class GExtension(object):
+class GExtension:
 	provides = ('g', )
 	needs = ('h', )
 
-class HExtension(object):
+class HExtension:
 	provides = ('h', )
 	needs = ('g', )
 
-class XExtension(object):
+class XExtension:
 	provides = ('x', )
 	excludes = ('a', )
 
 
 class TestExtensionManager(TestCase):
 	def test__plugin__access_via_attribute(self):
-		assert ExtensionManager('console_scripts').pip is pip
+		assert ExtensionManager('marrow.package.sample').load is load
 	
 	def test__plugin__access_via_array(self):
-		assert ExtensionManager('console_scripts')['pip'] is pip
+		assert ExtensionManager('marrow.package.sample')['name'] is name
 	
 	def test__plugin__registry(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		extensions = [AExtension(), BExtension(), CExtension()]
 		
@@ -68,13 +65,13 @@ class TestExtensionManager(TestCase):
 		assert extensions[0] in [i for i in manager]
 	
 	def test__extension__fails_not_existant_need(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		with pytest.raises(LookupError):
 			manager.order([BadExtension()])
 	
 	def test__extension__resolve_chain(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		extensions = [AExtension(), BExtension(), DExtension()]
 		
@@ -82,7 +79,7 @@ class TestExtensionManager(TestCase):
 		assert manager.order([i for i in reversed(extensions)]) == extensions
 	
 	def test__extension__equal_need(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		extensions = [AExtension(), BExtension(), CExtension()]
 		
@@ -90,20 +87,20 @@ class TestExtensionManager(TestCase):
 		assert manager.order(extensions) in (extensions, [extensions[0], extensions[2], extensions[1]])
 	
 	def test__extension__first_and_last(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		extensions = [EExtension(), AExtension(), FExtension()]
 		
 		assert manager.order(extensions) == extensions
 	
 	def test__extension__circular_need(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		with pytest.raises(LookupError):
 			manager.order([GExtension(), HExtension()])
 	
 	def test__extension__exclusion(self):
-		manager = ExtensionManager('console_scripts')
+		manager = ExtensionManager('marrow.package.sample')
 		
 		with pytest.raises(RuntimeError):
 			manager.order([AExtension(), XExtension()])

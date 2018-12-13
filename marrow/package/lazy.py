@@ -1,7 +1,7 @@
-# encoding: utf-8
-
 from threading import RLock
-from collections import MutableMapping
+from collections.abc import MutableMapping
+from typeguard import check_argument_types
+from typing import Callable
 
 from .loader import traverse, load
 
@@ -9,7 +9,7 @@ from .loader import traverse, load
 sentinel = object()
 
 
-class lazy(object):
+class lazy:
 	"""Lazily record the result of evaluating a function and cache the result.
 	
 	This is a non-data descriptor which tells Python to allow the instance `__dict__` to override, naturally caching
@@ -29,7 +29,9 @@ class lazy(object):
 		assert obj.myattr == 42 # Not.
 	"""
 	
-	def __init__(self, func, name=None, doc=None):
+	def __init__(self, func:Callable[[object], None], name:str=None, doc:str=None):
+		assert check_argument_types()
+		
 		self.__name__ = name or func.__name__
 		self.__module__ = func.__module__
 		self.__doc__ = func.__doc__
@@ -52,7 +54,7 @@ class lazy(object):
 		return value
 
 
-def lazyload(reference, *args, **kw):
+def lazyload(reference: str, *args, **kw):
 	"""Lazily load and cache an object reference upon dereferencing.
 	
 	Assign the result of calling this function with either an object reference passed in positionally:
@@ -68,6 +70,8 @@ def lazyload(reference, *args, **kw):
 	
 	Additional arguments are passed to the eventual call to `load()`.
 	"""
+	
+	assert check_argument_types()
 	
 	def lazily_load_reference(self):
 		ref = reference

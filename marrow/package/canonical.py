@@ -1,13 +1,13 @@
-# encoding: utf-8
-
-from __future__ import unicode_literals
-
 from functools import partial
 from inspect import getmodule, getmembers, isclass, isroutine
+from typeguard import check_argument_types
+from typing import Callable
 
 
-def unwrap(obj, attr='__wrapped__'):
+def unwrap(obj:Callable, attr:str='__wrapped__') -> Callable:
 	"""Handle the @functools.wrap decorator protocol, determining the originally wrapped function."""
+	
+	assert check_argument_types()
 	
 	while hasattr(obj, attr):
 		obj = getattr(obj, attr)
@@ -15,7 +15,9 @@ def unwrap(obj, attr='__wrapped__'):
 	return obj
 
 
-def search(parent, obj, path=''):
+def search(parent, obj, path:str='') -> str:
+	assert check_argument_types()
+	
 	obj = unwrap(unwrap(obj), '__func__')
 	
 	candidates = [
@@ -42,7 +44,7 @@ def search(parent, obj, path=''):
 	raise LookupError("Can not identify canonical name for object: " + repr(obj))
 
 
-def name(obj):
+def name(obj) -> str:
 	"""This helper function attempts to resolve the dot-colon import path for a given object.
 	
 	Specifically searches for classes and methods, it should be able to find nearly anything at either the module

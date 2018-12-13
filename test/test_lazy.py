@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from unittest import TestCase
 
 from marrow.package.lazy import lazy, lazyload
@@ -7,7 +5,7 @@ from marrow.package.lazy import lazy, lazyload
 from test import helper
 
 
-class MockObject(object):
+class MockObject:
 	calls = 0
 	
 	target = 'test.helper:Example'

@@ -1,3 +1,3 @@
-# encoding: utf-8
-
 from .release import version as __version__
+from .canonical import name
+from .loader import load, traverse
