@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-from __future__ import unicode_literals, print_function
-
 from functools import wraps
 
 
@@ -31,9 +27,9 @@ def decorated_deep():
 	pass
 
 
-class Example(object):
-	class Pandora(object):
-		class Box(object):
+class Example:
+	class Pandora:
+		class Box:
 			def nested(self):
 				pass
 		

@@ -3,6 +3,7 @@ import pkg_resources
 
 from typeguard import check_argument_types
 from typing import Sequence
+from pkg_resources import Distribution
 
 from .canonical import name as _name
 from .cache import PluginCache
@@ -43,7 +44,8 @@ class PluginManager:
 		self.named[name] = plugin
 		self.plugins.append(plugin)
 	
-	def _register(self, dist) -> None:
+	def _register(self, dist:Distribution) -> None:
+		assert check_argument_types()
 		entries = dist.get_entry_map(self.namespace)
 		
 		if not entries:
@@ -56,10 +58,10 @@ class PluginManager:
 				self.register(name, plugin)
 		
 		except pkg_resources.UnknownExtra:  # pragma: no cover - TODO: Figure out how to test this.
-			pass # skipping plugin due to missing dependencies
+			log.warning("Skipping registration of '{!r}' due to missing dependencies.".format(dist), exc_info=True)
 		
 		except ImportError:  # pragma: no cover - TODO: Figure out how to test this.
-			pass # skipping plugin due to malformed import
+			log.error("Skipping registration of '{!r}' due to uncaught error on import.".format(dist), exc_info=True)
 	
 	def __iter__(self):
 		for plugin in self.plugins:
@@ -121,7 +123,7 @@ class ExtensionManager(PluginManager):
 		# We bail early if there are known conflicts up-front.
 		
 		for conflict in set(provides) & set(excludes):
-			raise RuntimeError("{!r} precludes use of '{!r}', which is defined by {!r}".format(
+			raise RuntimeError("{!r} precludes use of '{!s}', which is defined by {!r}".format(
 					excludes[conflict], conflict, provides[conflict]))
 		
 		# Now we build the initial graph.

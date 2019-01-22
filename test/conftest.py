@@ -1,9 +1,7 @@
-# encoding: utf-8
-
 import os
 
 
-class Mine(object):
+class Mine:
 	def canary(self):
 		pass
 

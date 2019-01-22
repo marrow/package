@@ -5,6 +5,8 @@ by Paul Harrison
 Public domain, do with it as you will.
 
 From a blog post by Paul Harrison: http://www.logarithmic.net/pfh/blog/01208083168
+
+Somee cleanup was applied, and Python 3 function annotations (typing module, typeguard validation) supplied.
 """
 
 from collections import defaultdict

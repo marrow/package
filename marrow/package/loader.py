@@ -54,7 +54,8 @@ def traverse(obj, target:str, default=nodefault, executable:bool=False, separato
 	return value
 
 
-def load(target:str, namespace:str=None, default=nodefault, executable:bool=False, separators:Sequence[str]=('.', ':'), protect:bool=True):
+def load(target:str, namespace:str=None, default=nodefault, executable:bool=False, separators:Sequence[str]=('.', ':'),
+		protect:bool=True):
 	"""This helper function loads an object identified by a dotted-notation string.
 	
 	For example::
