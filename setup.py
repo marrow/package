@@ -1,27 +1,24 @@
 #!/usr/bin/env python3
 
-import codecs
-import os
-import sys
-
 from setuptools import setup
+from sys import argv, version_info as python_version
+from pathlib import Path
 
 
-if sys.version_info < (3, 4):
+if python_version < (3, 4):
 	raise SystemExit("Python 3.4 or later is required.")
 
-exec(open(os.path.join("marrow", "package", "release.py")).read())
+here = Path.cwd()
+exec((here / "marrow" / "package" / "release.py").read_text('utf-8'))
 
-here = os.path.abspath(os.path.dirname(__file__))
-
-tests_require = ['pytest', 'pytest-cov', 'pytest-flakes']
+tests_require = ['pytest', 'pytest-cov', 'pytest-flakes', 'pytest-isort']
 
 
 setup(
 	name = "marrow.package",
 	version = version,
 	description = description,
-	long_description = codecs.open(os.path.join(here, 'README.rst'), 'r', 'utf8').read(),
+	long_description = (here / 'README.rst').read_text('utf-8'),
 	url = url,
 	author = author.name,
 	author_email = author.email,
@@ -43,7 +40,6 @@ setup(
 			"Operating System :: OS Independent",
 			"Programming Language :: Python",
 			"Programming Language :: Python :: 3",
-			"Programming Language :: Python :: 3.3",
 			"Programming Language :: Python :: 3.4",
 			"Programming Language :: Python :: 3.5",
 			"Programming Language :: Python :: 3.6",
@@ -60,7 +56,7 @@ setup(
 	
 	setup_requires = [
 			'pytest-runner',
-		] if {'pytest', 'test', 'ptr'}.intersection(sys.argv) else [],
+		] if {'pytest', 'test', 'ptr'}.intersection(argv) else [],
 	
 	install_requires = [
 			'typeguard <= 2.3',
