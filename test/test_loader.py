@@ -63,7 +63,7 @@ class TestLoader(TestCase):
 			assert load('foo.bar:baz')
 	
 	def test_invalid_import_default(self):
-		assert load('foo.bar:baz', default="hi") is "hi"
+		assert load('foo.bar:baz', default="hi") == "hi"
 	
 	def test_basic_import(self):
 		assert load('test.helper:Example') is helper.Example
