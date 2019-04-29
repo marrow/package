@@ -242,7 +242,7 @@ Version 1.2
 Version 2.0
 -----------
 
-* **Updated minimum Python version.** Marrow Package now requires Python 3.4 or later.
+* **Updated minimum Python version.** Marrow Package now requires Python 3.5 or later.
 * **Removed Python 2 support and version specific code.** The project has been updated to modern Python packaging
   standards, including modern namespace use. Modern namespaces are wholly incompatible with the previous namespacing
   mechanism; this project can not be simultaneously installed with any Marrow project that is Python 2 compatible.
