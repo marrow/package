@@ -1,3 +1,10 @@
+"""Utilities and assistive tools to assist in implementing tests.
+
+Also contains a "main" section (invoke via `python test/helper.py`) to enumerate useful properties of various
+candidate objects, as used when initially implementing marrow.package, to explore compatibility between runtime
+versions.
+"""
+
 from functools import wraps
 
 
@@ -60,8 +67,6 @@ instance = Example()
 
 
 def main():
-	# We run some tests and output the results.
-	
 	import re
 	from inspect import getmembers, ismodule, isclass, ismethod, isfunction, isroutine
 	
@@ -101,7 +106,7 @@ def main():
 		
 		for i in (Example, Example.Pandora, Example.Pandora.Box, Example.Pandora.Box.nested, Example.Pandora.nested, Example.instance, Example.classmethod, Example.staticmethod, instance.instance, instance.classmethod, instance.staticmethod, instance):
 			if obj is i or obj == i: return True
-			if hasattr(i, '__name__') and i.__name__ in repr(obj): return True
+			if getattr(i, '__name__', None) in repr(obj): return True
 			
 		return False
 	
