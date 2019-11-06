@@ -2,8 +2,9 @@ import os
 import pkg_resources
 
 from typeguard import check_argument_types
-from typing import Sequence
+from typing import Any, Dict, Iterable, List, Set, cast
 from pkg_resources import Distribution
+from logging import getLogger as _logger
 
 from .canonical import name as _name
 from .cache import PluginCache
@@ -11,16 +12,23 @@ from .loader import traverse
 from .tarjan import robust_topological_sort
 
 
-log = __import__('logging').getLogger(__name__)
+log = _logger(__name__)
+Plugin = Any
+Flags = Set[str]
 
 
 class PluginManager:
-	def __init__(self, namespace:str, folders:Sequence[str]=None):
+	namespace:str
+	folders:Iterable[str]
+	plugins:List[Plugin]
+	named:PluginCache
+	
+	def __init__(self, namespace:str, folders:Iterable[str]=None):
 		assert check_argument_types()
 		
 		self.namespace = namespace
-		self.folders = folders if folders else list()
-		self.plugins = list()
+		self.folders = folders if folders else []
+		self.plugins = []
 		self.named = PluginCache(namespace)
 		
 		self.ws = ws = pkg_resources.working_set
@@ -92,21 +100,20 @@ class ExtensionManager(PluginManager):
 		
 		# First, we check that everything absolutely required is configured.
 		
-		provided = set().union(*(traverse(ext, 'provides', ()) for ext in extensions))
-		needed = set().union(*(traverse(ext, 'needs', ()) for ext in extensions))
+		provided: Flags = cast(Flags, set().union(*(traverse(ext, 'provides', ()) for ext in extensions)))
+		needed: Flags = cast(Flags, set().union(*(traverse(ext, 'needs', ()) for ext in extensions)))
 		
 		if not provided.issuperset(needed):
 			raise LookupError("Extensions providing the following features must be configured:\n" + \
 					', '.join(needed.difference(provided)))
 		
 		# Now we spider the configured extensions and graph them.  This is a multi-step process.
-		
 		# First, create a mapping of feature names to extensions.  We only want extension objects in our initial graph.
 		
-		universal = list()
-		inverse = list()
-		provides = dict()
-		excludes = dict()
+		universal: List[Plugin] = list()
+		inverse: List[Plugin] = list()
+		provides: Dict[str, Plugin] = dict()
+		excludes: Dict[str, Plugin] = dict()
 		
 		for ext in extensions:
 			for feature in traverse(ext, 'provides', ()):
@@ -128,7 +135,7 @@ class ExtensionManager(PluginManager):
 		
 		# Now we build the initial graph.
 		
-		dependencies = dict()
+		dependencies: Dict[Plugin, Flags] = dict()
 		
 		for ext in extensions:
 			# We build a set of requirements from needs + uses that have been fulfilled.
