@@ -1,8 +1,7 @@
+from test import helper
 from unittest import TestCase
 
 from marrow.package.lazy import lazy, lazyload
-
-from test import helper
 
 
 class MockObject:

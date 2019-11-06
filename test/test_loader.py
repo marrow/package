@@ -1,10 +1,9 @@
-import pytest
-
+from test import helper
 from unittest import TestCase
 
-from marrow.package.loader import traverse, load
+import pytest
 
-from test import helper
+from marrow.package.loader import load, traverse
 
 
 class Recorder:

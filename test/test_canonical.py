@@ -1,11 +1,9 @@
-import pytest
-
+from test import helper
 from unittest import TestCase
 
+import pytest
+
 from marrow.package.canonical import name
-
-from test import helper
-
 
 xfail_qualname = pytest.mark.xfail(
 		not hasattr(helper.Example, '__qualname__'),

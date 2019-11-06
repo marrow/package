@@ -1,8 +1,8 @@
-import pytest
-
 from unittest import TestCase
 
-from marrow.package import name, load
+import pytest
+
+from marrow.package import load, name
 from marrow.package.host import ExtensionManager
 
 

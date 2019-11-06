@@ -1,8 +1,8 @@
-import pytest
-
 from unittest import TestCase
 
-from marrow.package.tarjan import strongly_connected_components, topological_sort, robust_topological_sort
+import pytest
+
+from marrow.package.tarjan import robust_topological_sort, strongly_connected_components, topological_sort
 
 scc = strongly_connected_components
 ts = topological_sort
