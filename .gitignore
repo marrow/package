@@ -1,4 +1,5 @@
 # Python Bytecode
+__pycache__
 *.py[cod]
 
 # C Extensions
@@ -24,6 +25,7 @@ var
 .coverage
 .tox
 .pytest_cache
+.mypy_cache
 coverage.xml
 htmlcov
 
@@ -37,4 +39,3 @@ htmlcov
 # Completion Integration
 .ropeproject
 tags
-
