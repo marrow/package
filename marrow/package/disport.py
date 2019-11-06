@@ -5,7 +5,7 @@ Disport; noun: diversion from work or serious matters; recreation or amusement.
 
 from collections import deque
 from typeguard import check_argument_types
-from typing import Sequence, Iterable
+from typing import Deque, Sequence, Iterable, Optional
 
 from .loader import load, nodefault
 
@@ -27,8 +27,14 @@ class Importer:
 	
 	__slots__ = ('redirects', 'namespace', 'separators', 'executable', 'protect')
 	
-	def __init__(self, redirect:Iterable[Sequence[str, str]]=None, namespace:str=None,
-				separators:Sequence[str]=('.', ':'), executable:bool=False, protect:bool=True):
+	redirects: Deque[str]
+	namespace: str
+	separators: Iterable[str]
+	executable: bool
+	protect: bool
+	
+	def __init__(self, redirect:Optional[Iterable[str]]=None, namespace:str=None,
+				separators:Iterable[str]=('.', ':'), executable:bool=False, protect:bool=True):
 		"""Configure the disport Importer.
 		
 		The arguments are essentially the same as those for the load or lazyload utilities, with the addition of the
@@ -47,8 +53,9 @@ class Importer:
 		self.protect = protect
 		
 		# Initial redirects processing.
-		for source, destination in redirect:
-			self.redirect(source, destination)
+		if redirect:
+			for source, destination in redirect:
+				self.redirect(source, destination)
 	
 	def redirect(self, source:str, destination:str):
 		assert check_argument_types()

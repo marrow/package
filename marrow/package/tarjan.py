@@ -11,12 +11,12 @@ Somee cleanup was applied, and Python 3 function annotations (typing module, typ
 
 from collections import defaultdict
 from typeguard import check_argument_types
-from typing import List, Mapping, Sequence
+from typing import List, Mapping, MutableMapping, Sequence, Tuple, Iterable
 
-Graph = Mapping[str, Sequence[str]]
+Graph = Mapping[str, Iterable[str]]
 
 
-def strongly_connected_components(graph: Graph) -> List:
+def strongly_connected_components(graph:Graph) -> List[Tuple[str, ...]]:
 	"""Find the strongly connected components in a graph using Tarjan's algorithm.
 	
 	The `graph` argument should be a dictionary mapping node names to sequences of successor nodes.
@@ -24,9 +24,9 @@ def strongly_connected_components(graph: Graph) -> List:
 	
 	assert check_argument_types()
 	
-	result = []
-	stack = []
-	low = {}
+	result: List[Tuple[str, ...]] = []
+	stack: List[str] = []
+	low: MutableMapping[str, int] = {}
 	
 	def visit(node: str):
 		if node in low: return
@@ -55,10 +55,10 @@ def strongly_connected_components(graph: Graph) -> List:
 	return result
 
 
-def topological_sort(graph: Graph) -> list:
+def topological_sort(graph:Graph) -> list:
 	assert check_argument_types()
 	
-	count = defaultdict(lambda: 0)
+	count: MutableMapping[str, int] = defaultdict(lambda: 0)
 	
 	for node in graph:
 		for successor in graph[node]:
@@ -91,7 +91,7 @@ def robust_topological_sort(graph: Graph) -> list:
 		for node in component:
 			node_component[node] = component
 	
-	component_graph = {}
+	component_graph: MutableMapping[str, List[str]] = {}
 	for component in components:
 		component_graph[component] = []
 	
