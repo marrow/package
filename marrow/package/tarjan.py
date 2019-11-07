@@ -16,7 +16,7 @@ from typing import List, Mapping, MutableMapping, Sequence, Tuple, Iterable
 Graph = Mapping[str, Iterable[str]]
 
 
-def strongly_connected_components(graph:Graph) -> List[Tuple[str, ...]]:
+def strongly_connected_components(graph: Graph) -> List[Tuple[str, ...]]:
 	"""Find the strongly connected components in a graph using Tarjan's algorithm.
 	
 	The `graph` argument should be a dictionary mapping node names to sequences of successor nodes.
