@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import pytest
 
-from marrow.package.tarjan import robust_topological_sort, strongly_connected_components, topological_sort
+from marrow.package.tarjan import Graph, robust_topological_sort, strongly_connected_components, topological_sort
 
 scc = strongly_connected_components
 ts = topological_sort
@@ -10,9 +10,9 @@ rtc = robust_topological_sort
 
 
 class TestTarjan(TestCase):
-	GOOD = dict(foo=['bar'], bar=[], baz=['foo'])
-	BAD = dict(foo=['bar'], bar=['baz'], baz=['bar'])
-	MISSING = dict(foo=['bar'], bar=['baz'])
+	GOOD: Graph = dict(foo=['bar'], bar=[], baz=['foo'])
+	BAD: Graph = dict(foo=['bar'], bar=['baz'], baz=['bar'])
+	MISSING: Graph = dict(foo=['bar'], bar=['baz'])
 	
 	def test_strongly_connected_components_good(self):
 		# standard (no tricks) dependency graph
@@ -42,11 +42,11 @@ class TestTarjan(TestCase):
 	def test_robust_topological_sort_good(self):
 		# return parallel sets from least to most dependent
 		assert rtc(self.GOOD) == [('baz', ), ('foo', ), ('bar', )]
-
+	
 	def test_robust_topological_sort_bad(self):
 		# like the strongly connected components, but reversed
 		assert [tuple(sorted(i)) for i in rtc(self.BAD)] == [('foo', ), ('bar', 'baz')]
-
+	
 	def test_robust_topological_sort_ugly(self):
 		# as per the other ugly cases, we expect to bomb
 		with pytest.raises(KeyError):
