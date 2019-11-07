@@ -1,7 +1,7 @@
 from threading import RLock
 from collections.abc import MutableMapping
 from typeguard import check_argument_types
-from typing import Callable
+from typing import Any, Callable
 
 from .loader import traverse, load
 
@@ -29,7 +29,7 @@ class lazy:
 		assert obj.myattr == 42 # Not.
 	"""
 	
-	def __init__(self, func:Callable[[object], None], name:str=None, doc:str=None):
+	def __init__(self, func:Callable[[Any], None], name:str=None, doc:str=None):
 		assert check_argument_types()
 		
 		self.__name__ = name or func.__name__
