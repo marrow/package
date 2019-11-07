@@ -14,7 +14,7 @@ clean:
 	rm -rvf build htmlcov
 
 veryclean: clean
-	rm -rvf *.egg-info .packaging
+	rm -rvf *.egg-info .packaging/{build,dist,release}/*
 
 test: develop
 	./setup.py test
@@ -26,5 +26,4 @@ release:
 
 ${PROJECT}.egg-info/PKG-INFO: setup.py setup.cfg marrow/package/release.py
 	@mkdir -p ${VIRTUAL_ENV}/lib/pip-cache
-	pip install --cache-dir "${VIRTUAL_ENV}/lib/pip-cache" -Ue ".[${USE}]"
-
+	pip install --cache-dir "${VIRTUAL_ENV}/lib/pip-cache" --src "${VIRTUAL_ENV}/usr/src" -Ue ".[${USE}]"
