@@ -87,18 +87,21 @@ def robust_topological_sort(graph: Graph) -> list:
 	components = strongly_connected_components(graph)
 	
 	node_component = {}
+	component_graph: Graph = {}
+	
 	for component in components:
 		for node in component:
 			node_component[node] = component
 	
-	component_graph: MutableMapping[str, List[str]] = {}
 	for component in components:
 		component_graph[component] = []
 	
 	for node in graph:
 		node_c = node_component[node]
+		
 		for successor in graph[node]:
 			successor_c = node_component[successor]
+			
 			if node_c != successor_c:
 				component_graph[node_c].append(successor_c) 
 	
