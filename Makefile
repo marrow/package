@@ -20,9 +20,8 @@ test: develop
 	pytest
 
 release:
-	./setup.py register sdist bdist_wheel upload ${RELEASE_OPTIONS}
-	@echo -e "\nView online at: https://pypi.python.org/pypi/${PROJECT} or https://pypi.org/project/${PROJECT}/"
-	@echo -e "Remember to make a release announcement and upload contents of .packaging/release/ folder as a Release on GitHub.\n"
+	./setup.py sdist bdist_wheel ${RELEASE_OPTIONS}
+	python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 ${PROJECT}.egg-info/PKG-INFO: setup.py setup.cfg marrow/package/release.py
 	@mkdir -p ${VIRTUAL_ENV}/lib/pip-cache
