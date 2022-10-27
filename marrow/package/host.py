@@ -76,9 +76,11 @@ class PluginManager:
 			yield plugin
 	
 	def __getattr__(self, name:str):
+		if name.startswith('_'): raise AttributeError()
 		return self.named[name]
 	
 	def __getitem__(self, name:str):
+		if name.startswith('_'): raise KeyError()
 		return self.named[name]
 
 
