@@ -27,4 +27,9 @@ class PluginCache(defaultdict):
 	def __getattr__(self, name):
 		"""Proxy attribute access through to the dictionary."""
 		
-		return self[name]
+		try:
+			return self[name]
+		except KeyError:
+			pass
+		
+		raise AttributeError()
