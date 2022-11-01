@@ -23,6 +23,8 @@ class PluginManager:
 	plugins:List[Plugin]
 	named:PluginCache
 	
+	__wrapped__ = None  # Python decorator protocol bypass.
+	
 	def __init__(self, namespace:str, folders:Iterable[str]=None):
 		assert check_argument_types()
 		
@@ -76,9 +78,17 @@ class PluginManager:
 			yield plugin
 	
 	def __getattr__(self, name:str):
-		return self.named[name]
+		if name.startswith('_'): raise AttributeError()
+		
+		try:
+			return self.named[name]
+		except IndexError:
+			pass
+		
+		raise AttributeError()
 	
 	def __getitem__(self, name:str):
+		if name.startswith('_'): raise KeyError()
 		return self.named[name]
 
 
