@@ -2,7 +2,7 @@
 Marrow Package
 ==============
 
-    © 2014-2019 Alice Bevan-McGregor and contributors.
+    © 2014-2022 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -16,8 +16,8 @@ Marrow Package
 ==========================
 
 This package is a combination of utilities for handling object lookup, resolving object names, and managing simple to
-complex plugin architectures.  Notably it includes a dependency grapher system for extensions and helper for looking
-up qualified object names.
+complex plugin architectures.  Notably it includes a dependency graph system for extensions and helper for looking up
+qualified object names.
 
 This library is fully unit tested where possible.
 
@@ -32,7 +32,7 @@ Installing ``marrow.package`` is easy, just execute the following in a terminal:
 **Note:** We *strongly* recommend always using a container, virtualization, or sandboxing environment of some kind when
 developing using Python; installing things system-wide is yucky (for a variety of reasons) nine times out of ten.  We prefer light-weight `virtualenv <https://virtualenv.pypa.io/en/latest/virtualenv.html>`_, others prefer solutions as robust as `Vagrant <http://www.vagrantup.com>`_.
 
-If you add ``marrow.package`` to the ``install_requires`` argument of the call to ``setup()`` in your applicaiton's
+If you add ``marrow.package`` to the ``install_requires`` argument of the call to ``setup()`` in your application's
 ``setup.py`` file, Marrow Package will be automatically installed and made available when your own application or
 library is installed.  We recommend using "less than" version numbers to ensure there are no unintentional
 side-effects when updating.  Use ``marrow.package<2.1`` to get all bugfixes for the current release, and
@@ -120,7 +120,7 @@ fails, it will re-try on that object using array notation and continue from ther
 4.1. Resolving Import References
 --------------------------------
 
-The more complete API for name resolution uses the ``load`` funciton, which takes the same optional keyword arguments
+The more complete API for name resolution uses the ``load`` function, which takes the same optional keyword arguments
 as ``traverse``.  Additionally, this function accepts an optional ``namespace`` to search for plugins within.  For
 example::
 
@@ -196,12 +196,12 @@ point plugins found and any custom registered ones).
 5.2. Extension Manager
 ----------------------
 
-At a higher level is a ``PluginManager`` subclass called ``ExtensionManager`` which additoinally exposes a ``sort``
+At a higher level is a ``PluginManager`` subclass called ``ExtensionManager`` which additionally exposes a ``sort``
 method capable of resolving dependency order for extensions which follow a simple protocol: have an attribute or array
 element matching the following, all optional:
 
 * ``provides`` — declare tags describing the features offered by the plugin
-* ``needs`` — delcare the tags that must be present for this extension to function
+* ``needs`` — declare the tags that must be present for this extension to function
 * ``uses`` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
 * ``first`` — declare that this extension is a dependency of all other non-first extensions
 * ``last`` — declare that this extension depends on all other non-last extensions
@@ -247,7 +247,7 @@ Version 2.0
   standards, including modern namespace use. Modern namespaces are wholly incompatible with the previous namespacing
   mechanism; this project can not be simultaneously installed with any Marrow project that is Python 2 compatible.
 * **Extensive type annotation and in-development validation.** When run without optimizations (`-O` argument to Python
-  or `PYTHONOPTIMIZE` environment variable) type anotations will be validated.
+  or `PYTHONOPTIMIZE` environment variable) type annotations will be validated.
 * **Reduced test fragility.** Previously the tests utilized the `console_scripts` namespace, this was fragile to the
   presence of other installed libraries, e.g. `numpy` broke the tests on Travis.
 
@@ -255,12 +255,12 @@ Version 2.0
 7. License
 ==========
 
-Marrow Pacakge has been released under the MIT Open Source license.
+Marrow Package has been released under the MIT Open Source license.
 
 7.1. The MIT License
 --------------------
 
-Copyright © 2014-2019 Alice Bevan-McGregor and contributors.
+Copyright © 2014-2022 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the

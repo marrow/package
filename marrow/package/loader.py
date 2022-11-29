@@ -1,6 +1,10 @@
-from pkg_resources import iter_entry_points
+import os
+
+from pkg_resources import iter_entry_points, resource_filename
+from typing import Sequence, Optional
+
 from typeguard import check_argument_types
-from typing import Sequence
+
 
 nodefault = object()
 
@@ -54,36 +58,58 @@ def traverse(obj, target:str, default=nodefault, executable:bool=False, separato
 	return value
 
 
-def load(target:str, namespace:str=None, default=nodefault, executable:bool=False, separators:Sequence[str]=('.', ':'),
+def load(target:str, namespace:str=None, default=nodefault, executable:bool=False, separators:Sequence[str]=('.', ':', '/'),
 		protect:bool=True):
 	"""This helper function loads an object identified by a dotted-notation string.
 	
 	For example::
 	
-		# Load class Foo from example.objects
+		# Load class Foo from example.objects.
 		load('example.objects:Foo')
 		
-		# Load the result of the class method ``new`` of the Foo object
+		# Load the result of the class method ``new`` of the Foo object.
 		load('example.objects:Foo.new', executable=True)
 	
 	If a plugin namespace is provided simple name references are allowed.  For example::
 	
-		# Load the plugin named 'routing' from the 'web.dispatch' namespace
+		# Load the plugin named 'routing' from the 'web.dispatch' namespace.
 		load('routing', 'web.dispatch')
 	
 	The ``executable``, ``protect``, and first tuple element of ``separators`` are passed to the traverse function.
 	Providing a namespace does not prevent full object lookup (dot-colon notation) from working.
+	
+	This can also be used to look up the absolute path to a file relative to a package path. Where dot-colon notation
+	will retrieve a named attribute, forward-slash notation will retrieve the path to a file relative to the dot-
+	notation package:
+	
+		# Where is master.html relative to example.template?
+		load('example.template/master.html')
 	"""
 	
 	assert check_argument_types()
+	path:Optional[str] = None
 	
-	if namespace and ':' not in target:
+	if separators[1] in target and separators[2] in target:
+		raise LookupError("Can not target an attribute from a file on-disk.")
+	
+	if namespace and separators[1] not in target:
 		allowable = dict((i.name,  i) for i in iter_entry_points(namespace))
 		
 		if target not in allowable:
 			raise LookupError('Unknown plugin "' + target + '"; found: ' + ', '.join(allowable))
 		
 		return allowable[target].load()
+	
+	if separators[2] in target:
+		target, _, path = target.partition(separators[2])
+		
+		if not target or not path:
+			raise LookupError("Must specify a target package and package-relative path.")
+		
+		path = path.replace('/', os.path.sep)  # Adapt to platform conventions.
+		path = resource_filename(target, path)
+		
+		return path
 	
 	parts, _, target = target.partition(separators[1])
 	

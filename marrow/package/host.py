@@ -97,11 +97,11 @@ class ExtensionManager(PluginManager):
 	
 	Extensions describe their dependencies using an expressive syntax:
 	
-	* ``provides`` — declare tags describing the features offered by the plugin
-	* ``needs`` — delcare the tags that must be present for this extension to function
-	* ``uses`` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
-	* ``first`` — declare that this extension is a dependency of all other non-first extensions
-	* ``last`` — declare that this extension depends on all other non-last extensions
+	* `provides` — declare tags describing the features offered by the plugin
+	* `needs` — declare the tags that must be present for this extension to function
+	* `uses` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
+	* `first` — declare that this extension is a dependency of all other non-first extensions
+	* `last` — declare that this extension depends on all other non-last extensions
 	
 	"""
 	
