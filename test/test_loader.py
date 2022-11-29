@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pytest
 
-from marrow.package.loader import load, traverse
+from marrow.package import load, traverse
 
 
 class Recorder:
