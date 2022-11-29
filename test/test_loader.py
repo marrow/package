@@ -68,8 +68,9 @@ class TestLoader(TestCase):
 		assert load('test.helper:Example') is helper.Example
 	
 	def test_basic_entrypoint(self):
-		assert load('py.test', 'console_scripts') is pytest.main
+		assert load('traverse', 'marrow.package.sample') is traverse
 	
 	def test_unknown_entrypoint(self):
 		with pytest.raises(LookupError):
 			assert load('bob.dole', 'console_scripts')
+
