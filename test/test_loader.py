@@ -73,4 +73,7 @@ class TestLoader(TestCase):
 	def test_unknown_entrypoint(self):
 		with pytest.raises(LookupError):
 			assert load('bob.dole', 'console_scripts')
+	
+	def test_file_path(self):
+		assert load('test/example.md').replace('\\', '/').endswith('/test/example.md')
 
