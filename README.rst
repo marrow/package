@@ -2,7 +2,7 @@
 Marrow Package
 ==============
 
-    © 2014-2019 Alice Bevan-McGregor and contributors.
+    © 2014-2022 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -260,7 +260,7 @@ Marrow Pacakge has been released under the MIT Open Source license.
 7.1. The MIT License
 --------------------
 
-Copyright © 2014-2019 Alice Bevan-McGregor and contributors.
+Copyright © 2014-2022 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
