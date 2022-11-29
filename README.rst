@@ -30,12 +30,14 @@ Installing ``marrow.package`` is easy, just execute the following in a terminal:
     pip install marrow.package
 
 **Note:** We *strongly* recommend always using a container, virtualization, or sandboxing environment of some kind when
-developing using Python; installing things system-wide is yucky (for a variety of reasons) nine times out of ten.  We prefer light-weight `virtualenv <https://virtualenv.pypa.io/en/latest/virtualenv.html>`_, others prefer solutions as robust as `Vagrant <http://www.vagrantup.com>`_.
+developing using Python; installing things system-wide is yucky (for a variety of reasons) nine times out of ten.  We
+prefer light-weight `virtualenv <https://virtualenv.pypa.io/en/latest/virtualenv.html>`_, others prefer solutions as
+robust as `Vagrant <http://www.vagrantup.com>`_.
 
 If you add ``marrow.package`` to the ``install_requires`` argument of the call to ``setup()`` in your application's
 ``setup.py`` file, Marrow Package will be automatically installed and made available when your own application or
 library is installed.  We recommend using "less than" version numbers to ensure there are no unintentional
-side-effects when updating.  Use ``marrow.package<2.1`` to get all bugfixes for the current release, and
+side-effects when updating.  Use ``marrow.package<2.2`` to get all bugfixes for the current release, and
 ``marrow.package<3.0`` to get bugfixes and feature updates while ensuring that large breaking changes are not installed.
 
 
@@ -250,6 +252,17 @@ Version 2.0
   or `PYTHONOPTIMIZE` environment variable) type annotations will be validated.
 * **Reduced test fragility.** Previously the tests utilized the `console_scripts` namespace, this was fragile to the
   presence of other installed libraries, e.g. `numpy` broke the tests on Travis.
+
+Version 2.1
+-----------
+
+* **Migrated from Travis-CI to GitHub Actions for test automation.**
+* **Implement package-relative path lookup.** The `load` utility function can now resolve the path to a file relative
+  to a package. This is particularly useful for looking up the path to template files or on-disk static assets.
+* **Protected attribute access now fails.** Underscore-prefixed attributes are assumed to be "protected", with the
+  technical note that Python adds new internal "double underscore" attributes which must not spontaneously exist, or
+  generate errors other than `AttributeError`.
+* **Tests are now independent of third-party plugin registration.**
 
 
 7. License
