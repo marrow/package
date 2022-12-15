@@ -74,3 +74,14 @@ class TestResolver(TestCase):
 		
 	def test__resolve__of_a_module_level_decorated_decorated_method(self):
 		assert name(helper.Example.decorated_deep) == 'test.helper:Example.decorated_deep'
+	
+	def test__resolve__plugin_name(self):
+		assert name(name, 'marrow.package.sample') == 'name'
+	
+	def test__resolve__plugin_missing(self):
+		with pytest.raises(LookupError):
+			name(TestCase, 'marrow.package.sample')
+	
+	def test__resolve__plugin_direct(self):
+		assert name(TestCase, 'marrow.package.sample', True) == 'unittest.case:TestCase'
+

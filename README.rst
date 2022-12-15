@@ -97,6 +97,20 @@ You can, depending on platform, retrieve a reference to any of the following typ
 * closures
 
 
+3.1. Resolving Plugin References
+================================
+
+The ``load`` utility can optionally be provided a plugin namespace to search. If the target object is found within the
+namespace, the name of the plugin entry will be returned. By default, if a named plugin can **not** be found, a
+``LookupError`` will be raised. If a direct reference is acceptable, the boolean ``direct`` argument (third positional)
+can be made truthy to permit direct references.
+
+    from marrow.package.canonical import name
+
+    assert name(name, 'marrow.package.sample') == 'name'
+
+
+
 4. Resolving Object References
 ==============================
 
@@ -139,6 +153,7 @@ example::
     assert load('pip', 'console_scripts') is main
 
 Providing a namespace does not prevent explicit object lookup (dot-colon notation) from working.
+
 
 
 4.2. Caching Import References
