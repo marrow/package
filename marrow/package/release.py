@@ -21,7 +21,7 @@ class Author(namedtuple('Author', ('name', 'email'))):
 	email:str
 
 
-version_info = VersionInfo(2, 0, 2, 'final', 1)
+version_info = VersionInfo(2, 1, 0, 'final', 1)
 version = str(version_info)
 
 author = Author("Alice Bevan-McGregor", 'alice@gothcandy.com')
