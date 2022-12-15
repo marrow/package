@@ -23,7 +23,7 @@ def name(obj, namespace:Optional[str]=None, direct:bool=False) -> str:
 	if namespace:
 		eps = list(iter_entry_points(namespace))
 		for ep in eps:
-			candidate = "{ep.module_name}:{ep.attrs[0]}".format(ep=ep)
+			candidate = ep.module_name + ':' + ep.attrs[0]
 			if candidate == name:
 				name = ep.name
 				break
