@@ -74,3 +74,6 @@ class TestResolver(TestCase):
 		
 	def test__resolve__of_a_module_level_decorated_decorated_method(self):
 		assert name(helper.Example.decorated_deep) == 'test.helper:Example.decorated_deep'
+	
+	def test__resolve__plugin_name(self):
+		assert name(name, 'marrow.package.sample') == 'name'
