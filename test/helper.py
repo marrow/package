@@ -68,7 +68,7 @@ instance = Example()
 
 def main():
 	import re
-	from inspect import getmembers, ismodule, isclass, ismethod, isfunction, isroutine
+	from inspect import getmembers, isclass, isfunction, ismethod, ismodule, isroutine
 	
 	addrstrip = re.compile(r' at 0x[0-9a-fA-F]+')
 	

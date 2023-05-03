@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pytest
 
-from marrow.package.loader import load, traverse
+from marrow.package import load, traverse
 
 
 class Recorder:
@@ -68,8 +68,12 @@ class TestLoader(TestCase):
 		assert load('test.helper:Example') is helper.Example
 	
 	def test_basic_entrypoint(self):
-		assert load('py.test', 'console_scripts') is pytest.main
+		assert load('traverse', 'marrow.package.sample') is traverse
 	
 	def test_unknown_entrypoint(self):
 		with pytest.raises(LookupError):
 			assert load('bob.dole', 'console_scripts')
+	
+	def test_file_path(self):
+		assert load('test/example.md').replace('\\', '/').endswith('/test/example.md')
+

@@ -23,6 +23,8 @@ class PluginManager:
 	plugins:List[Plugin]
 	named:PluginCache
 	
+	__wrapped__ = None  # Python decorator protocol bypass.
+	
 	def __init__(self, namespace:str, folders:Iterable[str]=None):
 		assert check_argument_types()
 		
@@ -76,9 +78,17 @@ class PluginManager:
 			yield plugin
 	
 	def __getattr__(self, name:str):
-		return self.named[name]
+		if name.startswith('_'): raise AttributeError()
+		
+		try:
+			return self.named[name]
+		except IndexError:
+			pass
+		
+		raise AttributeError()
 	
 	def __getitem__(self, name:str):
+		if name.startswith('_'): raise KeyError()
 		return self.named[name]
 
 
@@ -87,11 +97,11 @@ class ExtensionManager(PluginManager):
 	
 	Extensions describe their dependencies using an expressive syntax:
 	
-	* ``provides`` — declare tags describing the features offered by the plugin
-	* ``needs`` — delcare the tags that must be present for this extension to function
-	* ``uses`` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
-	* ``first`` — declare that this extension is a dependency of all other non-first extensions
-	* ``last`` — declare that this extension depends on all other non-last extensions
+	* `provides` — declare tags describing the features offered by the plugin
+	* `needs` — declare the tags that must be present for this extension to function
+	* `uses` — declare the tags that must be evaluated prior to this extension, but aren't hard requirements
+	* `first` — declare that this extension is a dependency of all other non-first extensions
+	* `last` — declare that this extension depends on all other non-last extensions
 	
 	"""
 	
