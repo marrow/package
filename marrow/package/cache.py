@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typeguard import check_argument_types
+from typeguard import typechecked
 
 from .loader import load
 
@@ -10,12 +10,12 @@ class PluginCache(defaultdict):
 	Supports read-only dictionary-like and attribute access.
 	"""
 	
+	@typechecked
 	def __init__(self,  namespace: str):
 		"""You must specify an entry point namespace."""
 		
-		assert check_argument_types()
-		
 		super().__init__()
+		
 		self.namespace =  namespace
 	
 	def __missing__(self,  key):

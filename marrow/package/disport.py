@@ -4,7 +4,7 @@ Disport; noun: diversion from work or serious matters; recreation or amusement.
 """
 
 from collections import deque
-from typeguard import check_argument_types
+from typeguard import typechecked
 from typing import Deque, Sequence, Iterable, Optional
 
 from .loader import load, nodefault
@@ -33,6 +33,7 @@ class Importer:
 	executable: bool
 	protect: bool
 	
+	@typechecked
 	def __init__(self, redirect:Optional[Iterable[str]]=None, namespace:str=None,
 				separators:Iterable[str]=('.', ':'), executable:bool=False, protect:bool=True):
 		"""Configure the disport Importer.
@@ -41,8 +42,6 @@ class Importer:
 		ability to specify an initial iterable of overrides through the `redirect` argument. This should be an
 		iterable of tuples (or tuple-alikes) in the form `(source, destination)`.
 		"""
-		
-		assert check_argument_types()
 		
 		super().__init__()
 		
@@ -57,14 +56,12 @@ class Importer:
 			for source, destination in redirect:
 				self.redirect(source, destination)
 	
+	@typechecked
 	def redirect(self, source:str, destination:str):
-		assert check_argument_types()
-		
 		self.redirects.appendleft((source, destination))
 	
+	@typechecked
 	def __call__(self, target:str, default=nodefault):
-		assert check_argument_types()
-		
 		for candidate, destination in self.redirects:
 			if candidate == target:  # Plugin reference.
 				pass

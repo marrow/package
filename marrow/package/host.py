@@ -1,7 +1,7 @@
 import os
 import pkg_resources
 
-from typeguard import check_argument_types
+from typeguard import typechecked
 from typing import Any, Dict, Iterable, List, Set, cast
 from pkg_resources import Distribution
 from logging import getLogger as _logger
@@ -25,9 +25,8 @@ class PluginManager:
 	
 	__wrapped__ = None  # Python decorator protocol bypass.
 	
+	@typechecked
 	def __init__(self, namespace:str, folders:Iterable[str]=None):
-		assert check_argument_types()
-		
 		self.namespace = namespace
 		self.folders = folders if folders else []
 		self.plugins = []
@@ -46,16 +45,15 @@ class PluginManager:
 		
 		super(PluginManager, self).__init__()
 	
+	@typechecked
 	def register(self, name:str, plugin:object) -> None:
-		assert check_argument_types()
-		
 		log.info("Registering plugin" + name + " in namespace " + self.namespace + ".",
 				extra = dict(plugin_name=name, namespace=self.namespace, plugin=_name(plugin)))
 		self.named[name] = plugin
 		self.plugins.append(plugin)
 	
+	@typechecked
 	def _register(self, dist:Distribution) -> None:
-		assert check_argument_types()
 		entries = dist.get_entry_map(self.namespace)
 		
 		if not entries:

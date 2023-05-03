@@ -1,6 +1,6 @@
 from threading import RLock
 from collections.abc import MutableMapping
-from typeguard import check_argument_types
+from typeguard import typechecked
 from typing import Any, Callable
 
 from .loader import traverse, load
@@ -29,9 +29,8 @@ class lazy:
 		assert obj.myattr == 42 # Not.
 	"""
 	
+	@typechecked
 	def __init__(self, func:Callable[[Any], None], name:str=None, doc:str=None):
-		assert check_argument_types()
-		
 		self.__name__ = name or func.__name__
 		self.__module__ = func.__module__
 		self.__doc__ = func.__doc__
@@ -54,6 +53,7 @@ class lazy:
 		return value
 
 
+@typechecked
 def lazyload(reference: str, *args, **kw):
 	"""Lazily load and cache an object reference upon dereferencing.
 	
@@ -70,8 +70,6 @@ def lazyload(reference: str, *args, **kw):
 	
 	Additional arguments are passed to the eventual call to `load()`.
 	"""
-	
-	assert check_argument_types()
 	
 	def lazily_load_reference(self):
 		ref = reference

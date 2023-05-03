@@ -2,7 +2,7 @@
 Marrow Package
 ==============
 
-    © 2014-2022 Alice Bevan-McGregor and contributors.
+    © 2014-2023 Alice Bevan-McGregor and contributors.
 
 ..
 
@@ -279,6 +279,13 @@ Version 2.1
   generate errors other than `AttributeError`.
 * **Tests are now independent of third-party plugin registration.**
 
+Version 2.1.1
+-------------
+
+* **Update type hinting validation.** The ``typeguard`` package has removed a functional utility; decoration now used.
+* **Canonical plugin name resolution.** The ``name()`` utility can now resolve the plugin name if given a plugin
+  namespace to check.
+
 
 7. License
 ==========
@@ -288,7 +295,7 @@ Marrow Package has been released under the MIT Open Source license.
 7.1. The MIT License
 --------------------
 
-Copyright © 2014-2022 Alice Bevan-McGregor and contributors.
+Copyright © 2014-2023 Alice Bevan-McGregor and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation the

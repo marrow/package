@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import os
 
 from pkg_resources import iter_entry_points, resource_filename
@@ -5,10 +6,16 @@ from typing import Sequence, Optional
 
 from typeguard import check_argument_types
 
+=======
+from pkg_resources import iter_entry_points
+from typeguard import typechecked
+from typing import Sequence
+>>>>>>> Stashed changes
 
 nodefault = object()
 
 
+@typechecked
 def traverse(obj, target:str, default=nodefault, executable:bool=False, separator:str='.', protect:bool=True):
 	"""Traverse down an object, using getattr or getitem.
 	
@@ -24,7 +31,6 @@ def traverse(obj, target:str, default=nodefault, executable:bool=False, separato
 	"""
 	
 	# TODO: Support numerical slicing, i.e. ``1:4``, or even just ``:-1`` and things.
-	assert check_argument_types()
 	
 	value = obj
 	remainder = target
@@ -58,6 +64,7 @@ def traverse(obj, target:str, default=nodefault, executable:bool=False, separato
 	return value
 
 
+@typechecked
 def load(target:str, namespace:str=None, default=nodefault, executable:bool=False, separators:Sequence[str]=('.', ':', '/'),
 		protect:bool=True):
 	"""This helper function loads an object identified by a dotted-notation string.

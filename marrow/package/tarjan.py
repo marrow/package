@@ -6,23 +6,22 @@ Public domain, do with it as you will.
 
 From a blog post by Paul Harrison: http://www.logarithmic.net/pfh/blog/01208083168
 
-Somee cleanup was applied, and Python 3 function annotations (typing module, typeguard validation) supplied.
+Some cleanup was applied, and Python 3 function annotations (typing module, typeguard validation) supplied.
 """
 
 from collections import defaultdict
-from typeguard import check_argument_types
+from typeguard import typechecked
 from typing import List, Mapping, MutableMapping, Sequence, Tuple, Iterable
 
 Graph = Mapping[str, Iterable[str]]
 
 
+@typechecked
 def strongly_connected_components(graph: Graph) -> List[Tuple[str, ...]]:
 	"""Find the strongly connected components in a graph using Tarjan's algorithm.
 	
 	The `graph` argument should be a dictionary mapping node names to sequences of successor nodes.
 	"""
-	
-	assert check_argument_types()
 	
 	result: List[Tuple[str, ...]] = []
 	stack: List[str] = []
@@ -55,9 +54,8 @@ def strongly_connected_components(graph: Graph) -> List[Tuple[str, ...]]:
 	return result
 
 
+@typechecked
 def topological_sort(graph:Graph) -> list:
-	assert check_argument_types()
-	
 	count: MutableMapping[str, int] = defaultdict(lambda: 0)
 	
 	for node in graph:
@@ -79,10 +77,9 @@ def topological_sort(graph:Graph) -> list:
 	return result
 
 
+@typechecked
 def robust_topological_sort(graph: Graph) -> list:
 	"""Identify strongly connected components then perform a topological sort of those components."""
-	
-	assert check_argument_types()
 	
 	components = strongly_connected_components(graph)
 	
