@@ -1,16 +1,9 @@
-<<<<<<< Updated upstream
 import os
 
 from pkg_resources import iter_entry_points, resource_filename
 from typing import Sequence, Optional
 
-from typeguard import check_argument_types
-
-=======
-from pkg_resources import iter_entry_points
 from typeguard import typechecked
-from typing import Sequence
->>>>>>> Stashed changes
 
 nodefault = object()
 
@@ -93,7 +86,6 @@ def load(target:str, namespace:str=None, default=nodefault, executable:bool=Fals
 		load('example.template/master.html')
 	"""
 	
-	assert check_argument_types()
 	path:Optional[str] = None
 	
 	if separators[1] in target and separators[2] in target:
