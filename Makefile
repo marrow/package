@@ -15,10 +15,10 @@ clean:  ## Remove executable caches and ephemeral collections.
 	find . -name __pycache__ -exec rm -rfv {} +
 	find . -iname \*.pyc -exec rm -fv {} +
 	find . -iname \*.pyo -exec rm -fv {} +
-	rm -rvf .packaging/* htmlcov
+	rm -rvf .packaging/* htmlcov dist
 
 veryclean: clean  ## Remove all project metadata, executable caches, and sensitive collections.
-	rm -rvf *.egg-info .packaging/*
+	rm -rvf *.egg-info
 
 lint:  ## Execute pylint across the project.
 	pylint --rcfile=setup.cfg marrow
@@ -30,10 +30,11 @@ testloop:  ## Automatically execute the test suite limited to one failure.
 	find marrow test -name \*.py | entr -c pytest --ff --maxfail=1 -q
 
 release: test  ## Package up and utilize Twine to issue a release.
+	rm -vf dist/*
 	pip3 install -U build twine
 	python3 -m build
 	#python3 -m twine upload --repository-url https://test.pypi.org/legacy/ .packaging/release/*
-	#python3 -m twine upload .packaging/release/*
+	python3 -m twine upload dist/*
 
 ${PROJECT}.egg-info/PKG-INFO: setup.py setup.cfg
 	@mkdir -p ${VIRTUAL_ENV}/lib/pip-cache
